@@ -18,15 +18,17 @@ def Sensor():
         strvalue= ser.readall().decode('utf8')
         value = strvalue[9:-3].split(', ') #all_value
         list = {
-            'LP':value[0],
-            'LEQ':value[1],
-            'LE':value[2],
-            'LMAX':value[2],
-            'LMIN':value[4],
-            'LN3':value[8]
+            'Value1':value[0],
+            'Value2':value[1],
+            'Value3':value[2],
+            'Value4':value[2],
+            'Value5':value[4],
+            'Value6':value[8]
         }
+        if list['Value2']=="--.-":
+            return {'Value1': '-99', 'Value2': '-99', 'Value3': '-99', 'Value4': '-99', 'Value5': '-99', 'Value6': '-99'}
     except:
-        return {'LP': '', 'LEQ': '', 'LE': '', 'LMAX': '', 'LMIN': '', 'LN3': ''}
+        return {'Value1': '0', 'Value2': '0', 'Value3': '0', 'Value4': '0', 'Value5': '0', 'Value6': '0'}
 
     return list
 

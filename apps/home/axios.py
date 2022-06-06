@@ -150,7 +150,6 @@ def GetDashboard(request):
         #Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item":str(Re_Value[i][11]),"Value_be":str(GetData[i+4]),"Value_af":str(GetData[i+17]),"a":str(Re_Value[i][6]),"b":str(Re_Value[i][7]),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
 
     context={"Data":Data}
-    print(round(GetData[5],2))
     return JsonResponse(context)
 
 

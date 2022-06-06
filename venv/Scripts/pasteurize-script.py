@@ -1,4 +1,4 @@
-#!d:\01_project\13_chiyenoiese\venv\scripts\python.exe
+#!d:\01_project\13_chiyenoiese\local\venv\scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'future==0.18.2','console_scripts','pasteurize'
 import re
 import sys

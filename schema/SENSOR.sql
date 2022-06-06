@@ -278,7 +278,7 @@ CREATE TABLE `RE_VALUE` (
   `Value_span` float DEFAULT 0,
   `Count_zero` float DEFAULT 1,
   `Count_span` float DEFAULT 0,
-  `a` float DEFAULT 0,
+  `a` float DEFAULT 1,
   `b` float DEFAULT 0,
   `offset` float DEFAULT 0,
   PRIMARY KEY (`ID`)
