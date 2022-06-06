@@ -1,0 +1,42 @@
+.myTable {
+  width: 100%;
+}
+.myTable .myTable_head {
+  width: 100%;
+  /*overflow: hidden;*/
+  display:flex;
+}
+.myTable .myTable_content {
+  width: 100%;
+  /*overflow: auto;*/
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+.myTable .myTable_head .myTable_headContent{
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.myTable .myTable_head .headItems {
+  display: flex;
+  min-width:100%;
+}
+.myTable .myTable_head .headItems .headItem {
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.myTable .myTable_content .styleWidth {
+  visibility: collapse;
+}
+.myTable .myTable_content .styleWidth td {
+  box-sizing: border-box;
+}
+
+.myTable .myTable_content table {
+  border-spacing: 0px;
+  width: 100%;
+}
+.myTable .scrollW {
+  min-width: 17px;
+}

@@ -1,0 +1,160 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}<link type="text/css" href="/static/assets/css/custom.css" rel="stylesheet">{% endblock stylesheets %}
+
+
+{% block content %}
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+            <li class="breadcrumb-item">
+                <a href="/index.html">
+                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+            </li>
+            <li class="breadcrumb-item"><a href="/index.html">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+    </nav>
+    <div class="row myRow">
+        {% for item in Data %}
+            <div class="col-12 col-sm-6 col-xl-4 mb-4 myCol">
+                <div class="card border-0 shadow">
+                    <div class="card-body">
+                        <div class="row d-block d-flex align-items-center">
+                            <div class="col-4 col-sm-4 col-xl-4">
+                                <div class="icon-shape rounded bgcolor-gold">
+                                    <h3 class="fw-extrabold mb-1 px-2" >{{item.Item}}</h3>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <div class="{{item.Status_Col}} mx-1"></div>
+                                    <small>{{item.Status}}</small>
+                                </div> 
+                            </div>
+                            <div class="col-8 col-sm-8 col-xl-8">
+                                <div class="">                                    
+                                    <h3 class="fw-extrabold mb-2">{{item.Value1}}</h3>
+                                </div>
+                                <div class="d-flex align-items-center text-gray-500">
+                                    <span class="fs-7">{{item.Date_Time}}</span>
+                                    <svg class="icon icon-xxs text-gray-500 ms-2 me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path></svg>
+                                    <span class="fs-7">更新</span>
+                                </div> 
+                                <div class="small d-flex mt-1">                               
+                                    <div>與昨天相差 
+                                        <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                                        <span class="{{item.Diff_Col}}">{{item.Diff}}%</span>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="buttom-outline" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+                                        </button>
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">校正資料</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-12 col-xl-12 d-flex flex-wrap ">
+                                                            <div class="card card-body border-3 shadow mb-4">
+                                                                <div class="d-lg-flex mb-0">
+                                                                    <div class="fs-3  me-auto">
+                                                                        <h3>{{item.Item}}</h3>
+                                                                    </div>
+                                                                    <div class="d-flex flex-lg-column flex-xl-row align-items-end fs-7 ms-2">
+                                                                        <div class="mx-1">
+                                                                            <span>a：</span>
+                                                                            <span>0.1111</span>
+                                                                        </div>
+                                                                        <div class="mx-1">
+                                                                            <span>b：</span>
+                                                                            <span>0.2222</span>
+                                                                        </div>    
+                                                                        <div class="mx-1">                        
+                                                                            <span>offset：</span>
+                                                                            <span>2353</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div role="separator" class="dropdown-divider mb-2 mt-2"></div>
+                                                                <div class="row mb-2">
+                                                                    <div class="col-6 form-floating px-1 py-1">
+                                                                        <input type="text" class="form-control h-rem-3" id="table1_1" placeholder="Value"  required>
+                                                                        <label for="value1_1">Value_zero</label>
+                                                                    </div>
+                                                                    <div class="col-6 form-floating px-1 py-1">
+                                                                        <input type="text" class="form-control h-rem-3" id="table1_2" placeholder="Value" >
+                                                                        <label for="value1_2">Value_span</label>
+                                                                    </div>
+                                                                    <div class="col-6 form-floating px-1 py-1">
+                                                                        <input type="text" class="form-control h-rem-3" id="table1_3" placeholder="Value" >
+                                                                        <label for="value1_3">Count_zero</label>
+                                                                    </div>
+                                                                    <div class="col-6 form-floating px-1 py-1">
+                                                                        <input type="text" class="form-control h-rem-3" id="table1_4" placeholder="Value" >
+                                                                        <label for="value1_4">Count_span</label>
+                                                                        <div></div>
+                                                                    </div>
+                                                                    <div class="col-6 form-floating px-1 py-1">
+                                                                        <input type="text" class="form-control h-rem-3" id="table1_5" placeholder="offset" >
+                                                                        <label for="value1_5">offset</label>
+                                                                        <div></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-2">
+                                                                    <div class="col-5 px-1 py-1 text-center fw-bold">
+                                                                        <div class="fs-7 text-gray-500">Before</div>
+                                                                        <div class="fs-3">6352</div>
+                                                                    </div>
+                                                                    <div class="col-2 icon ps-0 mt-2">
+                                                                        <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#fff" d="M64 14A50 50 0 1 0 64 114A50 50 0 1 0 64 14Z"></path><path fill="#444b54" d="M64,117c-29.2,0-53-23.8-53-53s23.8-53,53-53s53,23.8,53,53S93.2,117,64,117z M64,17c-25.9,0-47,21.1-47,47s21.1,47,47,47s47-21.1,47-47S89.9,17,64,17z"></path><path fill="#444b54" d="M80 67H55c-1.7 0-3-1.3-3-3s1.3-3 3-3h25c1.7 0 3 1.3 3 3S81.7 67 80 67zM45 67c-.2 0-.4 0-.6-.1-.2 0-.4-.1-.6-.2-.2-.1-.3-.2-.5-.3-.2-.1-.3-.2-.5-.4C42.3 65.6 42 64.8 42 64s.3-1.6.9-2.1c.1-.1.3-.3.4-.4.2-.1.3-.2.5-.3.2-.1.4-.1.6-.2 1-.2 2 .1 2.7.8.6.6.9 1.3.9 2.1s-.3 1.6-.9 2.1c-.1.1-.3.3-.5.4-.2.1-.3.2-.5.3-.2.1-.4.1-.6.2C45.4 67 45.2 67 45 67z"></path><path fill="#444b54" d="M70,77c-0.8,0-1.5-0.3-2.1-0.9c-1.2-1.2-1.2-3.1,0-4.2l7.9-7.9l-7.9-7.9c-1.2-1.2-1.2-3.1,0-4.2c1.2-1.2,3.1-1.2,4.2,0l10,10c1.2,1.2,1.2,3.1,0,4.2l-10,10C71.5,76.7,70.8,77,70,77z"></path></svg><path fill="#fff" d="M64 14A50 50 0 1 0 64 114A50 50 0 1 0 64 14Z"></path><path fill="#444b54" d="M64,117c-29.2,0-53-23.8-53-53s23.8-53,53-53s53,23.8,53,53S93.2,117,64,117z M64,17c-25.9,0-47,21.1-47,47s21.1,47,47,47s47-21.1,47-47S89.9,17,64,17z"></path><path fill="#444b54" d="M80 67H55c-1.7 0-3-1.3-3-3s1.3-3 3-3h25c1.7 0 3 1.3 3 3S81.7 67 80 67zM45 67c-.2 0-.4 0-.6-.1-.2 0-.4-.1-.6-.2-.2-.1-.3-.2-.5-.3-.2-.1-.3-.2-.5-.4C42.3 65.6 42 64.8 42 64s.3-1.6.9-2.1c.1-.1.3-.3.4-.4.2-.1.3-.2.5-.3.2-.1.4-.1.6-.2 1-.2 2 .1 2.7.8.6.6.9 1.3.9 2.1s-.3 1.6-.9 2.1c-.1.1-.3.3-.5.4-.2.1-.3.2-.5.3-.2.1-.4.1-.6.2C45.4 67 45.2 67 45 67z"></path><path fill="#444b54" d="M70,77c-0.8,0-1.5-0.3-2.1-0.9c-1.2-1.2-1.2-3.1,0-4.2l7.9-7.9l-7.9-7.9c-1.2-1.2-1.2-3.1,0-4.2c1.2-1.2,3.1-1.2,4.2,0l10,10c1.2,1.2,1.2,3.1,0,4.2l-10,10C71.5,76.7,70.8,77,70,77z"></path>
+                                                                    </div>
+                                                                    <div class="col-5 px-1 py-1 text-center fw-bold">   
+                                                                        <div class="fs-7 text-gray-500">After</div>
+                                                                        <div class="fs-3">2252</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                                                        <button type="button" class="btn btn-primary" id="item_check">確定</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %} 
+    </div>
+    <span id="reflash"></span>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    axios
+    .get("/GetDashboard/")
+    .then(function(resp){
+        console.log(resp.data.GetDashboard[0].Item)
+        document.querySelector('.Item').textContent = resp.data.GetDashboard[0].Item;
+    })
+    .catch()
+</script>
+
+{% endblock javascripts %}
+

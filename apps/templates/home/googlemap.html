@@ -1,0 +1,34 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Error 403 {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}<link type="text/css" href="/static/assets/css/custom.css" rel="stylesheet">{% endblock stylesheets %}
+
+{% block content %}
+<h3>My Google Maps Demo</h3>
+    <div id="map"></div>
+    
+    
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    function initMap() {
+        var uluru = {lat: 22.604829500976447, lng: 120.30017448437619};
+        var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 16,
+        center: uluru
+        });
+        var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+        });
+    }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjIk7_LowrKJYnmDOyVtlWqGyf496g58U&callback=initMap">
+</script>
+{% endblock javascripts %}

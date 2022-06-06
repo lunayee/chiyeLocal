@@ -1,0 +1,162 @@
+{% extends "layouts/base.html" %} {% block title %} 歷史資料 {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<link href="/static/assets/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+<link href="/static/assets/libs/myTable.css" rel="stylesheet" />
+{% endblock stylesheets %}
+
+
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4 ">
+  <div class="d-block mb-4 mb-md-0">
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+      <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+        <li class="breadcrumb-item">
+          <a href="/index.html">
+            <svg
+              class="icon icon-xxs"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              ></path>
+            </svg>
+          </a>
+        </li>
+        <li class="breadcrumb-item"><a href="/index.html">首頁</a></li>
+        <li class="breadcrumb-item active" aria-current="page">歷史紀錄</li>
+      </ol>
+    </nav>
+    <h2 class="h4">歷史紀錄值</h2>
+    
+  </div>
+</div>
+
+<div class="table-settings mb-4">
+  <div class="row align-items-center ">
+      <div class="col-8 col-sm-6 col-md-4 col-lg-4 col-xl-3 ">
+        <div class="input-group me-2 me-lg-3 fmxw-400">
+          <div class="input-group ">
+              <div class="input-group-text " >
+                <label for="StartTime" style="height:0.8rem" style="width: 220px" >開始日期</label>
+              </div>
+              <input class="form-control " type="text" id="StartTime" name="bday">
+          </div>
+        </div>
+      </div>
+      <div class="col-8 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+        <div class="input-group me-2 me-lg-3 fmxw-400">
+          <div class="input-group">
+              <div class="input-group-text" >
+                <label for="EndTime" style="height:0.8rem" style="width: 220px" >中止日期</label>
+              </div>
+              <input class="form-control" type="text" id="EndTime" name="bday">
+          </div>
+        </div>
+      </div>
+      <div class="col-2 col-sm-2 col-md-auto col-lg-2 col-xl-auto ">
+          <div>
+            <select class="form-select" id="table1_0" aria-label="Item" style="font-size: 18px;height:2.6rem;width:6rem">
+                <option selected value="T01">T01</option>
+                <option value="T05">T05</option>
+                <option value="T60">T60</option>
+            </select>
+          </div>
+      </div>
+      <div class="col-2 col-sm-2 col-md-auto col-lg-2 col-xl-auto ">
+        <button type="button" class="btn btn-link text-dark " data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="col-3 col-sm-2 col-md-auto col-lg-2 col-xl-auto mb-2">
+          <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="savebtn">Search</button>
+      </div>
+      <div class="col-3 col-sm-2 col-md-auto col-lg-2 col-xl-auto mb-2">
+          <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="exportbtn">Export</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">選擇要顯示的測項</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+          <div class="col-12 col-sm-12 col-xl-12 d-fle
+          x flex-wrap ">
+            {% for real,SwitchCheck in Item %}
+            <div class="form-check form-control-lg col-4 col-xl-4 SwitchCheck">
+              <input class="form-check-input" type="checkbox" id="SwitchCheck" value="{{real}}" placeholder="{{SwitchCheck}}" checked="checked">
+              <label class="form-check-label" for="SwitchCheck">{{SwitchCheck}}</label>
+            </div>
+            {% endfor %}
+      </div>  
+      </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">確定</button>
+          </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+<div class="myTable" id="myTable">
+    <div class="myTable_head">
+      <div class="myTable_headContent">
+        <div class="headItems">
+        </div>
+      </div>
+      <div class="scrollW"></div>
+    </div>
+    <div class="myTable_content">
+      <table>
+        <div id="loading">
+          <div class="sk-chase d-flex align-items-center justify-content-center" id="loading_css">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+          </div>
+        </div>
+        <tbody class="historytbody">          
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="mt-4 d-flex justify-content-center">
+    <button class="btn btn-gray-800" id="prevbtn">&lt;</button>
+    <button class="btn btn-gray-800 ms-2" id="nextbtn">&gt;</button>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="/static/assets/js/jquery-3.3.1.min.js"></script>  
+<script src="/static/assets/js/popper.min.js"></script> 
+<script src="/static/assets/js/boostrap.min.js"></script> 
+<script src="/static/assets/js/jquery.datetimepicker.full.min.js"></script> 
+<script src="/static/assets/js/home/history.js"></script>
+<script src="/static/assets/libs/myTable.js"></script> 
+<script src="/static/assets/js/moment.js"></script> 
+{% endblock javascripts %}
