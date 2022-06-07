@@ -14,15 +14,15 @@ def Inpsetting(request):
         if data['area']=="無":
             data['ip']=0
             data['port']=0
-            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=1").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
+            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=2").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
             print(data)
         if data['area']=="1":
             data['ip']='125.227.111.239'
             data['port']=3333
-            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=1").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
+            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=2").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
             print(data)
         if data['area']=="2":
-            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=1").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
+            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=2").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
             print(data)
         return JsonResponse(data)
 

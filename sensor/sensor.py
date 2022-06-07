@@ -18,11 +18,11 @@ def Sensor():
         strvalue= ser.readall().decode('utf8')
         value = strvalue[9:-3].split(', ') #all_value
         list = {
-            'Value1':value[0],
-            'Value2':value[1],
-            'Value3':value[2],
-            'Value4':value[2],
-            'Value5':value[4],
+            'Value1':value[0],#
+            'Value2':value[1],#LEQ噪音
+            'Value3':value[2],#風速
+            'Value4':value[2],#風向
+            'Value5':value[4],#溫#濕度#雨量#大氣壓
             'Value6':value[8]
         }
         if list['Value2']=="--.-":
