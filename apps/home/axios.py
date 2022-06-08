@@ -140,13 +140,14 @@ def GetDashboard(request):
     GetData=DBmysql.read_mysql("SENSOR","select * from `SENSOR_DB` ORDER BY `ID` DESC LIMIT 0,1")[0]
     Re_Value=DBmysql.read_mysql("REVISE","select * from `RE_VALUE`,`LABEL` where `Va_Name` = `Label`") 
     
+    
     isshowid=[]
     for i in Re_Value:
         if i[12] == 'True' :
             isshowid.append(i[0]-14)
 
     for i in isshowid:
-        Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item":str(Re_Value[i][11]),"Value_be":str(round(GetData[i+4],2)),"Value_af":str(round(GetData[i+17],2)),"a":str(round(Re_Value[i][6],3)),"b":str(round(Re_Value[i][7],3)),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
+        Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item":str(Re_Value[i][11]),"Value_be":str(round(GetData[i+17],2)),"Value_af":str(round(GetData[i+4],2)),"a":str(round(Re_Value[i][6],3)),"b":str(round(Re_Value[i][7],3)),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
         #Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item":str(Re_Value[i][11]),"Value_be":str(GetData[i+4]),"Value_af":str(GetData[i+17]),"a":str(Re_Value[i][6]),"b":str(Re_Value[i][7]),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
 
     context={"Data":Data}
@@ -163,7 +164,7 @@ def getHistory(request):
         Count=int(request.GET['count'])
         SwitchCheck_all=eval(request.GET['SwitchCheck_all'])     
         
-        #print(SwitchCheck_all)        
+        print(SwitchCheck_all)        
         check=[]
         checkname=[]
         
@@ -174,6 +175,7 @@ def getHistory(request):
         str_check="`,`".join(check)
         
         GetData=DBmysql.read_mysql("SENSOR",("select `Time`,`{}` from `{}` WHERE `Time` >= '{}' and `Time` < '{}'").format(str_check,Table,StartTime,EndTime))
+        #print(GetData)
         total = len(GetData)
         DATA=[]
         for i in range(total):
