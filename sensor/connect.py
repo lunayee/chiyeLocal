@@ -1,32 +1,42 @@
+import sys
+sys.path.append(".\\apps\\home")
 import sensor
 import time
 import datetime
 import DBmysql
-import sys
-sys.path.append(".\\apps\\home")
+
 
 
 def getaDate():
+    str_now = str_time()
+    INITIAL = getInitial()
     DATA = sensor.Sensor()
+
+    DATA['Time'] = str_now
+    DATA['Proj_ID'] = INITIAL[1]
+    DATA['STID'] = INITIAL[2]
+
+
     AF_DATA = {}
     i = 0
     # Value1-7校正後 Value14-20校正前
-    comparison = {'Value1': 'Value14', 'Value2': 'Value15', 'Value3': 'Value16',
-                  'Value4': 'Value17', 'Value5': 'Value18', 'Value6': 'Value19', 'Value7': 'Value20'}
+    comparison = {'Value1': ['Value14','S1'], 'Value2': ['Value15','S2'], 'Value3': ['Value16','S3'],
+                  'Value4': ['Value17','S4'], 'Value5': ['Value18','S5'], 'Value6': ['Value19','S6'], 'Value7': ['Value20','S7']}
 
     for af, be in comparison.items():
         i = i+1
-        search = DBmysql.read_mysql_test(
+        search = DBmysql.read_mysql(
             "REVISE", ("select * from RE_VALUE where `Va_Name` = '{}' ;").format(af))[0]  # 抓取a b offset
-        cal = float(DATA[be])*search[6]+search[7]+search[8]
+        cal = float(DATA[be[0]])*search[6]+search[7]+search[8]
         AF_DATA[af] = cal
+
     DATA.update(AF_DATA)  # 將計算後的合併成一個
 
     return DATA
 
 
 def getInitial():
-    INITIAL = DBmysql.read_mysql_test("REVISE", "select * from INITIAL;")[0]
+    INITIAL = DBmysql.read_mysql("REVISE", "select * from INITIAL;")[0]
     return INITIAL
 
 
@@ -38,16 +48,9 @@ def str_time():
 
 def T001():
     # Value1-6校正後的值 Value14-19校正前的值
-    str_now = str_time()
-    INITIAL = getInitial()
     DATA = getaDate()
-    DATA['Time'] = str_now
-    DATA['Proj_ID'] = INITIAL[1]
-    DATA['STID'] = INITIAL[2]
-    print(DATA)
-    sqlReal = ("INSERT INTO `SENSOR_DB`(`Time`,`Proj_ID`,`STID`,`Value1`,`Value2`,`Value3`,`Value4`,`Value5`,`Value6`,`Value14`,`Value15`,`Value16`,`Value17`,`Value18`,`Value19`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')").format(
-        DATA['Time'], DATA['Proj_ID'], DATA['STID'], DATA['Value1'], DATA['Value2'], DATA['Value3'], DATA['Value4'], DATA['Value5'], DATA['Value6'], DATA['Value14'], DATA['Value15'], DATA['Value16'], DATA['Value17'], DATA['Value18'], DATA['Value19'])
-    DBmysql.write_mysql_test("SENSOR", sqlReal)
+    DBmysql.write_mysql("SENSOR","SENSOR_DB",DATA) 
+    return DATA
 
 
 def T01():
@@ -71,10 +74,15 @@ def T01():
         'Value18': 2,
         'Value19': 2,
         'Value20': 2,
+        'S1':"**",
+        'S2':"**",
+        'S3':"**",
+        'S4':"**",
+        'S5':"**",
+        'S6':"**",
+        'S7':"**",
     }
-    sqlReal = ("INSERT INTO `T01`(`Time`,`Proj_ID`,`STID`,`Value1`,`Value2`,`Value3`,`Value4`,`Value5`,`Value6`,`Value14`,`Value15`,`Value16`,`Value17`,`Value18`,`Value19`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')").format(
-        DATA['Time'], DATA['Proj_ID'], DATA['STID'], DATA['Value1'], DATA['Value2'], DATA['Value3'], DATA['Value4'], DATA['Value5'], DATA['Value6'], DATA['Value14'], DATA['Value15'], DATA['Value16'], DATA['Value17'], DATA['Value18'], DATA['Value19'])
-    DBmysql.write_mysql_test("SENSOR", sqlReal)
+    DBmysql.write_mysql("SENSOR","T01",DATA) 
 
 
 def T05():
@@ -99,9 +107,7 @@ def T05():
         'Value19': 2,
         'Value20': 2,
     }
-    sqlReal = ("INSERT INTO `T05`(`Time`,`Proj_ID`,`STID`,`Value1`,`Value2`,`Value3`,`Value4`,`Value5`,`Value6`,`Value14`,`Value15`,`Value16`,`Value17`,`Value18`,`Value19`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')").format(
-        DATA['Time'], DATA['Proj_ID'], DATA['STID'], DATA['Value1'], DATA['Value2'], DATA['Value3'], DATA['Value4'], DATA['Value5'], DATA['Value6'], DATA['Value14'], DATA['Value15'], DATA['Value16'], DATA['Value17'], DATA['Value18'], DATA['Value19'])
-    DBmysql.write_mysql_test("SENSOR", sqlReal)
+    DBmysql.write_mysql("SENSOR","T05",DATA) 
 
 
 def T60():
@@ -126,13 +132,10 @@ def T60():
         'Value19': 2,
         'Value20': 2,
     }
-    sqlReal = ("INSERT INTO `T60`(`Time`,`Proj_ID`,`STID`,`Value1`,`Value2`,`Value3`,`Value4`,`Value5`,`Value6`,`Value14`,`Value15`,`Value16`,`Value17`,`Value18`,`Value19`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')").format(
-        DATA['Time'], DATA['Proj_ID'], DATA['STID'], DATA['Value1'], DATA['Value2'], DATA['Value3'], DATA['Value4'], DATA['Value5'], DATA['Value6'], DATA['Value14'], DATA['Value15'], DATA['Value16'], DATA['Value17'], DATA['Value18'], DATA['Value19'])
-    DBmysql.write_mysql_test("SENSOR", sqlReal)
+    DBmysql.write_mysql("SENSOR","T60",DATA) 
 
 
-print(T01())
-
+print(T60())
 '''
 while(1):
     T001()

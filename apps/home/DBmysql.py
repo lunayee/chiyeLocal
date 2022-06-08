@@ -15,12 +15,14 @@ def read_mysql(DBNAME,SQL):##read_mysql("SENSOR","select * from `T01`")
     return c.fetchall()
 
 
-def write_mysql(DBNAME,SQL):##write_mysql("REVISE","INSERT INTO `LABEL`(`Label`,`Name`) VALUES (%s,%s)")
+def write_mysql(DBNAME,TABLE,DICT):##write_mysql("SENSOR","T01",DICT)
     now = datetime.datetime.now()
-    db,c = connected_mysql(DBNAME)
-    c.execute(SQL)
+    METHOD = "INSERT INTO"
+    SQL = produce_sql(METHOD,TABLE,DICT)
+    db,c = connected_test(DBNAME)
+    c.execute(SQL,DICT.values())
     db.commit()
-    return now
+    return SQL
     
 def update_mysql(DBNAME,SQL):##update_mysql("REVISE","UPDATE `LABEL` SET `Name`=99 where `ID`=10 ")
     now = datetime.datetime.now()
@@ -28,6 +30,12 @@ def update_mysql(DBNAME,SQL):##update_mysql("REVISE","UPDATE `LABEL` SET `Name`=
     c.execute(SQL)
     db.commit()
     return now
+
+def produce_sql(METHOD,TABLE,DICT): #produce_sql("INSERT INTO","SENSOR_DB",x)
+    placeholders = ', '.join(['%s'] * len(DICT))
+    columns = ', '.join(DICT.keys())
+    sql = "%s %s ( %s ) VALUES ( %s )" % (METHOD,TABLE, columns, placeholders)
+    return sql
 
 ###TEST###
 def connected_test(DBNAME):##connected_mysql("SENSOR")
@@ -47,3 +55,13 @@ def read_mysql_test(DBNAME,SQL):##read_mysql("SENSOR","select * from `T01`")
     db,c=connected_test(DBNAME)
     c.execute(SQL)
     return c.fetchall()
+
+def write_test(DBNAME,TABLE,DICT):##write_mysql_test("SENSOR","T01",DICT)
+    now = datetime.datetime.now()
+    METHOD = "INSERT INTO"
+    SQL = produce_sql(METHOD,TABLE,DICT)
+    db,c = connected_test(DBNAME)
+    c.execute(SQL,DICT.values())
+    db.commit()
+    return SQL
+
