@@ -31,40 +31,29 @@ def NOISE():
         #print("NOISE",value)
         #儀器沒抓到值，可以按按看start
         if list['Value2']=="--.-":
-            return {'Value1': NULL,'S1': '#'}
-        return {'Value1': value[1],'S1': NULL}
+            return -9999
+        return value[1]
     except:
         #線沒接好
-        return {'Value1': NULL,'S1': '--'}
+        return -9999
 
 def Sensor():
     N = NOISE()
     #原始值
     list = {
         #'Value14':N['Value1'],# 噪音
-        'Value14':17,# 噪音
-        'S1':N['S1'],
+        'Value14':N,# 噪音
         'Value15':0,# 風速
-        'S2':"**",
         'Value16':0,# 風向
-        'S3':"**",
         'Value17':0,# 溫度
-        'S4':"**",
         'Value18':0,# 濕度
-        'S5':"**",
         'Value19':0,# 雨量
-        'S6':"**",
         'Value20':0,# 大氣壓力
-        'S7':"**",
 
     }
     return list
     
 
-X="Value1"
-y=X.split("Value")
-Value14 = "Value"+str(int(y[1])+13)
-print(Value14)
 
 # if __name__=='__main__':
 #     while(1):

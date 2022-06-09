@@ -43,19 +43,6 @@ CREATE TABLE `SENSOR_DB` (
   `Value24` float DEFAULT -9999,
   `Value25` float DEFAULT -9999,
   `Value26` float DEFAULT -9999,
-  `S1` varchar(2) DEFAULT NULL,
-  `S2` varchar(2) DEFAULT NULL,
-  `S3` varchar(2) DEFAULT NULL,
-  `S4` varchar(2) DEFAULT NULL,
-  `S5` varchar(2) DEFAULT NULL,
-  `S6` varchar(2) DEFAULT NULL,
-  `S7` varchar(2) DEFAULT NULL,
-  `S8` varchar(2) DEFAULT NULL,
-  `S9` varchar(2) DEFAULT NULL,
-  `S10` varchar(2) DEFAULT NULL,
-  `S11` varchar(2) DEFAULT NULL,
-  `S12` varchar(2) DEFAULT NULL,
-  `S13` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=275529 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
@@ -125,19 +112,6 @@ CREATE TABLE `T01` (
   `Value24` float DEFAULT -9999,
   `Value25` float DEFAULT -9999,
   `Value26` float DEFAULT -9999,
-  `S1` varchar(2) DEFAULT NULL,
-  `S2` varchar(2) DEFAULT NULL,
-  `S3` varchar(2) DEFAULT NULL,
-  `S4` varchar(2) DEFAULT NULL,
-  `S5` varchar(2) DEFAULT NULL,
-  `S6` varchar(2) DEFAULT NULL,
-  `S7` varchar(2) DEFAULT NULL,
-  `S8` varchar(2) DEFAULT NULL,
-  `S9` varchar(2) DEFAULT NULL,
-  `S10` varchar(2) DEFAULT NULL,
-  `S11` varchar(2) DEFAULT NULL,
-  `S12` varchar(2) DEFAULT NULL,
-  `S13` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`ID`,`Time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14163 DEFAULT CHARSET=utf8mb4;
 -- 插入資料

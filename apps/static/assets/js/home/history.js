@@ -18,7 +18,7 @@ window.addEventListener("load", function () {
   var totalPage = 0;
   var now = moment();
   var stv = now.clone().add(-1, "days").format("YYYY-MM-DD 00:00");
-  var etv = now.clone().format("YYYY-MM-DD HH:00");
+  var etv = now.clone().add(1, "hours").format("YYYY-MM-DD HH:00");
 
   updateTable(StartTime.value, EndTime.value, page, count);
 

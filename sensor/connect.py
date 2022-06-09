@@ -1,5 +1,3 @@
-import sys
-sys.path.append(".\\apps\\home")
 import sensor
 import time
 import datetime
@@ -74,13 +72,6 @@ def T01():
         'Value18': 2,
         'Value19': 2,
         'Value20': 2,
-        'S1':"**",
-        'S2':"**",
-        'S3':"**",
-        'S4':"**",
-        'S5':"**",
-        'S6':"**",
-        'S7':"**",
     }
     DBmysql.write_mysql("SENSOR","T01",DATA) 
 
@@ -135,7 +126,7 @@ def T60():
     DBmysql.write_mysql("SENSOR","T60",DATA) 
 
 
-print(T001())
+T05()
 '''
 while(1):
     T001()
