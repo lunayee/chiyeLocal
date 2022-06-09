@@ -203,14 +203,20 @@ def GetLngLat(request):
 def GetTable(request):
     if request.method == "GET":
         Item=request.GET['Item']
+        #將Value1轉換成Value14
+        
+        X=Item
+        y=X.split("Value")
+        change_Item = "Value"+str(int(y[1])+13)
         #Item = "Value1"
-        Value_af=DBmysql.read_mysql("SENSOR",("select `{}` from `STANDARD_DB` ORDER BY `ID` DESC LIMIT 0,1").format(Item))[0]
-        Value_be=DBmysql.read_mysql("SENSOR",("select `{}` from `SENSOR_DB` ORDER BY `ID` DESC LIMIT 0,1").format(Item))[0]
+        #Value_af=DBmysql.read_mysql("SENSOR",("select `{}` from `STANDARD_DB` ORDER BY `ID` DESC LIMIT 0,1").format(Item))[0]
+        Value_be=DBmysql.read_mysql("SENSOR",("select `{}` from `SENSOR_DB` ORDER BY `ID` DESC LIMIT 0,1").format(change_Item))[0]
         ST_VALUE=DBmysql.read_mysql("REVISE",("select `a`,`b`,`offset` from `ST_VALUE` WHERE `Va_Name` = '{}' ").format(Item))[0]
         a=ST_VALUE[0]
         b=ST_VALUE[1]
         offset=ST_VALUE[2]
         calValue_af=Value_be[0]*a+b+offset
+
         print(Value_be[0])
         
         context={"Value_be":Value_be[0],"calValue_af":calValue_af,"a":a,"b":b,"offset":offset}

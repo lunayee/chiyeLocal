@@ -135,7 +135,7 @@ def T60():
     DBmysql.write_mysql("SENSOR","T60",DATA) 
 
 
-print(T60())
+print(T001())
 '''
 while(1):
     T001()

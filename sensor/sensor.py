@@ -41,7 +41,8 @@ def Sensor():
     N = NOISE()
     #原始值
     list = {
-        'Value14':N['Value1'],# 噪音
+        #'Value14':N['Value1'],# 噪音
+        'Value14':17,# 噪音
         'S1':N['S1'],
         'Value15':0,# 風速
         'S2':"**",
@@ -60,11 +61,14 @@ def Sensor():
     return list
     
 
+X="Value1"
+y=X.split("Value")
+Value14 = "Value"+str(int(y[1])+13)
+print(Value14)
 
-
-if __name__=='__main__':
-    while(1):
-        print(Sensor())
+# if __name__=='__main__':
+#     while(1):
+#         print(Sensor())
 
     
 
