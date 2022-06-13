@@ -70,17 +70,6 @@ def goEPA(TABLE):
         time.sleep(30)
         
 
-def finished():        
-    if connected()== True :
-        goEPA()
-            
-          
-def realtime():
-    while(1):
-        now=datetime.datetime.now()
-        time.sleep(1)
-        if now.second == 0:
-            return True
 
 client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # AF_INET:默認IPv4, SOCK_STREAM:UDP
 
@@ -89,7 +78,7 @@ judge_T01 = time_judge()
 judge_T05 = time_judge()
 judge_T60 = time_judge()
 
-if realtime() == True & connected() == True :
+if connected() == True :
     while(1):
         now = datetime.datetime.now()
         timstamps = int(now.timestamp())

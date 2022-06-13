@@ -15,8 +15,8 @@ DROP TABLE IF EXISTS `SENSOR_DB`;
 CREATE TABLE `SENSOR_DB` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Proj_ID` varchar(8) NOT NULL,
-  `STID` varchar(8) NOT NULL,
+  `Proj_ID` varchar(8) DEFAULT NULL,
+  `STID` varchar(8) DEFAULT NULL,
   `Value1` float DEFAULT -9999,
   `Value2` float DEFAULT -9999,
   `Value3` float DEFAULT -9999,
@@ -172,8 +172,8 @@ DROP TABLE IF EXISTS `T60`;
 CREATE TABLE `T60` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Proj_ID` varchar(10) NOT NULL,
-  `STID` varchar(10) NOT NULL,
+  `Proj_ID` varchar(10) DEFAULT NULL,
+  `STID` varchar(10) DEFAULT NULL,
   `Value1` float DEFAULT -9999,
   `Value2` float DEFAULT -9999,
   `Value3` float DEFAULT -9999,

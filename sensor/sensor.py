@@ -1,5 +1,5 @@
 from asyncio.windows_events import NULL
-import serial, time
+import serial, time,datetime
 
 ser = serial.Serial()  
 ser.port = 'COM10'
@@ -30,18 +30,19 @@ def NOISE():
         }
         #print("NOISE",value)
         #儀器沒抓到值，可以按按看start
-        if list['Value2']=="--.-":
-            return -9999
-        return value[1]
+        return value[0]
     except:
         #線沒接好
         return -9999
 
 def Sensor():
+    # Value1-6校正後的值 Value14-19校正前的值
+    now = datetime.datetime.now()
+    str_now = datetime.datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
     N = NOISE()
     #原始值
     list = {
-        #'Value14':N['Value1'],# 噪音
+        'Time':str_now,
         'Value14':N,# 噪音
         'Value15':0,# 風速
         'Value16':0,# 風向
@@ -49,15 +50,14 @@ def Sensor():
         'Value18':0,# 濕度
         'Value19':0,# 雨量
         'Value20':0,# 大氣壓力
-
     }
     return list
     
 
 
-# if __name__=='__main__':
-#     while(1):
-#         print(Sensor())
+if __name__=='__main__':
+    while(1):
+        print(Sensor())
 
     
 
