@@ -53,7 +53,6 @@ def All_mean(ago, aft):
     DATA['Value5'] = 3
     DATA['Value6'] = 3
     DATA['Value7'] = 3
-    #DBmysql.write_mysql("SENSOR", "T01", DATA)
     return DATA
 
 
@@ -72,7 +71,7 @@ class time_judge:
     def cal_time(self, now, second, fmt):
         ago = now+datetime.timedelta(seconds=second)
         AGO = datetime.datetime.strftime(ago, fmt)
-        return ago
+        return AGO
 
 
 judge_T001 = time_judge()
@@ -83,7 +82,7 @@ judge_T60 = time_judge()
 while(1):
     now = datetime.datetime.now()
     timstamps = int(now.timestamp())
-    if judge_T001.range_second(timstamps, 3):
+    if judge_T001.range_second(timstamps, 2):
         DATA = getaDate()
         DBmysql.write_mysql("SENSOR", "SENSOR_DB", DATA)
     if judge_T01.range_second(timstamps, 60):
@@ -91,6 +90,7 @@ while(1):
         aft = judge_T01.cal_time(now, 0, '%Y-%m-%d %H:%M:00')
         DATA = All_mean(ago, aft)
         DATA['Time'] = ago
+        print(DATA)
         DBmysql.write_mysql("SENSOR", "T01", DATA)
         print("T01", ago, aft)
     if judge_T05.range_second(timstamps, 300):

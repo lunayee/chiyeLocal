@@ -43,12 +43,12 @@ def getinitial():
     return initial
 
 
-def getData(TABLE):  # getData('SENSOR_DB')
+def getData(DATABASE,TABLE):  # getData('SENSOR','SENSOR_DB')
     data = {}
     value = DBmysql.read_mysql(
-        "SENSOR", ("SELECT * FROM `{}` ORDER BY `ID` DESC LIMIT 0,1 ").format(TABLE))[0]
+        DATABASE, ("SELECT * FROM `{}` ORDER BY `ID` DESC LIMIT 0,1 ").format(TABLE))[0]
     column_name = DBmysql.read_mysql_column_name(
-        "SENSOR", ("SELECT * FROM `{}` ORDER BY `ID` DESC LIMIT 0,1 ").format(TABLE))
+        DATABASE, ("SELECT * FROM `{}` ORDER BY `ID` DESC LIMIT 0,1 ").format(TABLE))
     for index, item in enumerate(column_name):
         data[item] = value[index]
     data['Time'] = str(data['Time'])
@@ -67,10 +67,11 @@ def send(msg):
         time.sleep(5)
 
 
-def goEPA(TABLE):
+def goEPA(DATABASE,TABLE):
     try:
-        all_data = getData(TABLE)
+        all_data = getData(DATABASE,TABLE)
         all_data['TABLE'] = TABLE
+        all_data['DATABASE'] = DATABASE
         send(str(all_data))
         print(TABLE, all_data['Time'])
     except:
@@ -91,10 +92,10 @@ if connected() == True:
         now = datetime.datetime.now()
         timstamps = int(now.timestamp())
         if judge_T001.range_second(timstamps, 2):
-            goEPA("SENSOR_DB")
+            goEPA("SENSOR","SENSOR_DB")
         if judge_T01.range_second(timstamps, 60):
-            goEPA("T01")
+            goEPA("SENSOR","T01")
         if judge_T05.range_second(timstamps, 300):
-            goEPA("T05")
+            goEPA("SENSOR","T05")
         if judge_T60.range_second(timstamps, 3600):
-            goEPA("T60")
+            goEPA("SENSOR","T60")

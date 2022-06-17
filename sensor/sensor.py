@@ -1,8 +1,7 @@
-from asyncio.windows_events import NULL
 import serial, time,datetime
 
 ser = serial.Serial()  
-ser.port = 'COM10'
+ser.port = 'COM2'
 ser.baudrate = 9600
 ser.parity = serial.PARITY_NONE
 ser.bytesize = serial.EIGHTBITS 
@@ -59,6 +58,5 @@ if __name__=='__main__':
     while(1):
         print(Sensor())
 
-    
 
 

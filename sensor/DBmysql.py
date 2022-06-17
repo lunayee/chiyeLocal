@@ -43,3 +43,5 @@ def produce_sql(METHOD,TABLE,DICT): #produce_sql("INSERT INTO","SENSOR_DB",x)
     sql = "%s %s ( %s ) VALUES ( %s )" % (METHOD,TABLE, columns, placeholders)
     return sql
 
+if __name__=='__main__':
+    print(connected_mysql("SENSOR"))

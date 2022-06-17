@@ -14,7 +14,7 @@ window.addEventListener("load", function () {
   });
 
   var page = 1;
-  var count = 72;
+  var count = 1440;
   var totalPage = 0;
   var now = moment();
   var stv = now.clone().add(-1, "days").format("YYYY-MM-DD 00:00");
