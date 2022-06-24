@@ -157,4 +157,22 @@ window.addEventListener("load", function () {
       });
     });
   });
+  backupbtn.addEventListener("click", function () {
+    axios.get("/recover/", { params: { st: StartTime.value, et: EndTime.value, table: table1_0.value } })
+    .then(function(resp){
+            Toast.fire({
+                icon: 'success',
+                title: '回補成功！'
+              })
+        })
+        .catch(function(resp){
+            Toast.fire({
+                icon: 'error',
+                title: '回補失敗！'
+              })
+            console.log(err);
+        })
+    
+  });
+  
 });

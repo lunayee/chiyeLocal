@@ -4,7 +4,7 @@ import MySQLdb
 from datetime import date
 import datetime
 import DBmysql
-
+import requests
 
 class time_judge:
     def __init__(self):
@@ -77,6 +77,10 @@ def goEPA(DATABASE,TABLE):
     except:
         print("retest mysocket after 30seconds")
         time.sleep(30)
+
+def sendany(all_data):
+    send(str(all_data))
+    print(all_data)
 
 
 # AF_INET:默認IPv4, SOCK_STREAM:UDP

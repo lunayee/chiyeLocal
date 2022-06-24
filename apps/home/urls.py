@@ -12,6 +12,7 @@ urlpatterns = [
     path('SaveHistory/',axios.SaveHistory),
     path('getHistory/',axios.getHistory),
     path('SaveTable/',axios.SaveTable),
+    path('recover/',axios.recover),
     
     
     

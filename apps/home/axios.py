@@ -1,3 +1,4 @@
+from importlib.resources import contents
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 import json
@@ -5,6 +6,10 @@ from . import DBmysql
 import datetime
 import math
 import json
+import socket
+import time
+import datetime
+import requests
 
 
 #POST
@@ -255,4 +260,29 @@ def export_json(filename,json_data):
     with open(filename,'w') as f:
         json.dump(json_data,f)
         f.close()
-    
+
+def sendsocket(msg):
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    initial = DBmysql.read_mysql("REVISE", "select * from `INITIAL`")
+    IP = initial[0][6]
+    PORT = initial[0][7]
+    ADDR = (IP, int(PORT))
+    client.sendto(msg.encode('utf-8'), ADDR)
+    return client
+
+
+def recover(request):#SaveBackup
+    if request.method == "GET":
+        StartTime=request.GET['st']
+        EndTime=request.GET['et']
+        Table=request.GET['table']
+        GetData=DBmysql.read_mysql("SENSOR",("select * from `{}` WHERE `Time` >= '{}' and `Time` < '{}'").format(Table,StartTime,EndTime))
+        column_name = DBmysql.read_mysql_column_name("SENSOR", ("SELECT * FROM `{}` ORDER BY `ID` DESC LIMIT 0,1 ").format(Table))
+
+        context = {'DATABASE':'SENSOR','TABLE':Table,'column_name':column_name,'value':GetData}
+        goEpaContext=json.dumps(context, indent=4, sort_keys=True, default=str)
+        url = "http://192.168.3.107:8000/"
+        requests.post(url+'SaveBackup/', json=goEpaContext)
+
+        
+    return JsonResponse(context)

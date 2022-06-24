@@ -22,13 +22,23 @@ def read_mysql_column_name(DBNAME,SQL):##read_mysql("SENSOR","select * from `T01
 
 
 def write_mysql(DBNAME,TABLE,DICT):##write_mysql("SENSOR","T01",DICT)
-    now = datetime.datetime.now()
+    placeholders = ', '.join(['%s'] * len(DICT))
+    columns = ', '.join(DICT.keys())
     METHOD = "INSERT INTO"
-    SQL = produce_sql(METHOD,TABLE,DICT)
+    SQL = "%s %s ( %s ) VALUES ( %s )" % (METHOD,TABLE, columns, placeholders)
     db,c = connected_mysql(DBNAME)
     c.execute(SQL,DICT.values())
     db.commit()
     return SQL
+
+def write_many_mysql(DBNAME,TABLE,column,list):#write_many_mysql("SENSOR","T01",["Value2","Value3"],[[3,3],[3,6],[9,9]])
+    column = ",".join(column)
+    placeholders = ', '.join(['%s'] * len(list[0]))
+    SQL = "%s %s ( %s ) VALUES ( %s )" % ("INSERT INTO",TABLE, column, placeholders)
+    db,c = connected_mysql(DBNAME)
+    c.executemany(SQL, list )
+    db.commit()    
+    return c
     
 def update_mysql(DBNAME,SQL):##update_mysql("REVISE","UPDATE `LABEL` SET `Name`=99 where `ID`=10 ")
     now = datetime.datetime.now()
@@ -37,11 +47,6 @@ def update_mysql(DBNAME,SQL):##update_mysql("REVISE","UPDATE `LABEL` SET `Name`=
     db.commit()
     return now
 
-def produce_sql(METHOD,TABLE,DICT): #produce_sql("INSERT INTO","SENSOR_DB",x)
-    placeholders = ', '.join(['%s'] * len(DICT))
-    columns = ', '.join(DICT.keys())
-    sql = "%s %s ( %s ) VALUES ( %s )" % (METHOD,TABLE, columns, placeholders)
-    return sql
 
 if __name__=='__main__':
     print(connected_mysql("SENSOR"))
