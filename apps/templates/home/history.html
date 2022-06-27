@@ -178,10 +178,10 @@
   });
 
   var page = 1;
-  var count = 1440;
+  var count = 1000;
   var totalPage = 0;
   var now = moment();
-  var stv = now.clone().add(-1, "days").format("YYYY-MM-DD 00:00");
+  var stv = now.clone().add(0, "days").format("YYYY-MM-DD 00:00");
   var etv = now.clone().add(1, "hours").format("YYYY-MM-DD HH:00");
 
   updateTable(StartTime.value, EndTime.value, page, count);

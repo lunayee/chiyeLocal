@@ -20,6 +20,14 @@ def SIXSENSOR():
     except:
         #線沒接好
         return -9999
+
+def cleanRain():
+    read_values = master.execute(1,6,0x5A,output_value=0x5A)
+    return read_values
+
+
+
 if __name__=='__main__':
-    while(1):
-        print(SIXSENSOR())
+    print(cleanRain())
+    print(SIXSENSOR())
+    

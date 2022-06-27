@@ -11,7 +11,7 @@ import time
 import datetime
 import requests
 
-
+URL = "http://192.168.3.107:8000/"
 #POST
 def Inpsetting(request):
     if request.method == "POST":
@@ -19,16 +19,11 @@ def Inpsetting(request):
         if data['area']=="無":
             data['ip']=0
             data['port']=0
-            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=2").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
-            print(data)
         if data['area']=="1":
             data['ip']='125.227.111.239'
             data['port']=3333
-            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=2").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
-            print(data)
-        if data['area']=="2":
-            DBmysql.update_mysql("REVISE",("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=2").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port']))
-            print(data)
+        SQL = ("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=2").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port'])
+        DBmysql.update_mysql("REVISE",SQL)
         return JsonResponse(data)
 
 def connect_server(request):
@@ -281,7 +276,7 @@ def recover(request):#SaveBackup
 
         context = {'DATABASE':'SENSOR','TABLE':Table,'column_name':column_name,'value':GetData}
         goEpaContext=json.dumps(context, indent=4, sort_keys=True, default=str)
-        url = "http://192.168.3.107:8000/"
+        url = URL
         requests.post(url+'SaveBackup/', json=goEpaContext)
 
         
