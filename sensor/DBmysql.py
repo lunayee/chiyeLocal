@@ -49,4 +49,6 @@ def update_mysql(DBNAME,SQL):##update_mysql("REVISE","UPDATE `LABEL` SET `Name`=
 
 
 if __name__=='__main__':
-    print(connected_mysql("SENSOR"))
+    range_data = read_mysql( "SENSOR", ("select Value1,Value2,Value3,Value4,Value5,Value6,Value7 from T01 where Time >= '{}' and Time < '{}' and Value1 <> -9999;").format('2022-06-28 9:00:00', '2022-06-28 10:00:00'))
+
+    print(range_data)

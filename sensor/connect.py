@@ -10,9 +10,10 @@ def getaDate():
     DATA = sensor.Sensor()
     AF_DATA = {}
     # Value1-7校正後 Value14-20校正前
-    comparison = {'Value1': 'Value14', 'Value2': 'Value15', 'Value3': 'Value16',
-                  'Value4': 'Value17', 'Value5': 'Value18', 'Value6': 'Value19', 'Value7': 'Value20'}
 
+    comparison = getComparison()
+    
+    
     for af, be in comparison.items():
         search = DBmysql.read_mysql(
             "REVISE", ("select * from RE_VALUE where `Va_Name` = '{}' ;").format(af))[0]  # 抓取a b offset
@@ -24,67 +25,73 @@ def getaDate():
     INITIAL = getInitial()
     DATA['Proj_ID'] = INITIAL[1]
     DATA['STID'] = INITIAL[2]
-
     return DATA
-
 
 def getInitial():
     INITIAL = DBmysql.read_mysql("REVISE", "select * from INITIAL;")[0]
     return INITIAL
 
+def getComparison():
+    #{'Value1': 'Value14', 'Value2': 'Value15', 'Value3': 'Value16','Value4': 'Value17', 'Value5': 'Value18', 'Value6': 'Value19', 'Value7': 'Value20'}
+    number = DBmysql.read_mysql_column_name("SENSOR", "select * from T01;")
+    itemnumber = int((len(number)-4)/2)
+    comparison = {}
+    for i in range(1,itemnumber+1,1):
+        comparison[("Value{}").format(i)] = ("Value{}").format(i+itemnumber)
+    return comparison
 
 def cal_N(Val):  # 第1個數字-Value1
     data = []
-    if len(Val) == 0:
-        cal = 0
-        return cal
-    for i in range(len(Val)):
-        cal = 10**(0.1*Val[i][0]) #Value1
-        data.append(cal)
-    final = 10*math.log(sum(data)*(1/len(Val)), 10)
-    return final
+    if len(Val) == 0:return -9999
+    try:
+        for i in range(len(Val)):
+            if Val[i][0] != -9999:
+                cal = 10**(0.1*Val[i][0]) #Value1
+                data.append(cal)
+        final = 10*math.log(sum(data)*(1/len(Val)), 10)
+        return final
+    except:
+        return -9999
 
 
-#print(cal_rain([[0,0,0,0,0,5,0],[0,0,0,0,0,9,0]]))
 
 def cal_tmp(Val):#cal_tmp([[0,0,0,28.1,0,0,0]])
     data = []
-    if len(Val) == 0:
-        cal = 0
-        return cal
+    if len(Val) == 0:return -9999
     for i in range(len(Val)):
-        data.append(Val[i][3]) #Value4
+        if Val[i][3] != -9999:
+            data.append(Val[i][3]) #Value4
+    if len(data) ==0:return -9999
     final = sum(data)/len(data)
     return final
 
 def cal_hum(Val):#cal_hum([[0,0,0,0,61.8,0,0]])
     data = []
-    if len(Val) == 0:
-        cal = 0
-        return cal
+    if len(Val) == 0:return -9999
     for i in range(len(Val)):
-        data.append(Val[i][4]) #Value5
+        if Val[i][4] != -9999:
+            data.append(Val[i][4]) #Value5
+    if len(data) ==0:return -9999
     final = sum(data)/len(data)
     return final
 
 def cal_rain(Val):#cal_rain([[0,0,0,0,0,5,0]])
     data = []
-    if len(Val) == 0:
-        cal = 0
-        return cal
+    if len(Val) == 0:return -9999
     for i in range(len(Val)):
-        data.append(Val[i][5]) #Value6
+        if Val[i][5] != -9999:
+            data.append(Val[i][5]) #Value6
+    if len(data) ==0:return -9999
     final = max(data)
     return final
 
-def cal_pre(Val):#cal_pre([[0,0,0,0,0,0,1013]])
+def cal_pre(Val):#cal_pre([[0,0,0,0,0,0,1013]]) #Value7
     data = []
-    if len(Val) == 0:
-        cal = 0
-        return cal
+    if len(Val) == 0:return -9999
     for i in range(len(Val)):
-        cal = (760*Val[i][6])/1013 #Value7
-        data.append(cal)
+        if Val[i][6] != -9999:
+            data.append(Val[i][6])
+    if len(data) ==0:return -9999
     final = sum(data)/len(data)
     return final
   
@@ -94,7 +101,9 @@ def All_mean(ago, aft):
     INITIAL = getInitial()
     DATA['Proj_ID'] = INITIAL[1]
     DATA['STID'] = INITIAL[2]
-    range_data = DBmysql.read_mysql( "SENSOR", ("select Value1,Value2,Value3,Value4,Value5,Value6,Value7 from SENSOR_DB where Time >= '{}' and Time < '{}';").format(ago, aft))
+    af_item = list(getComparison().keys())#校正後的cloumn
+    af_item = ",".join(af_item)
+    range_data = DBmysql.read_mysql( "SENSOR", ("select {} from SENSOR_DB where Time >= '{}' and Time < '{}' ;").format(af_item,ago, aft))
     DATA['Value1'] = cal_N(range_data)
     DATA['Value2'] = 3
     DATA['Value3'] = 3

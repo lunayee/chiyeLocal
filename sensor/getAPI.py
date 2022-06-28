@@ -56,12 +56,12 @@ if judge_T001.realtime() ==  True:
         timstamps = int(now.timestamp())
         if judge_T001.range_second(timstamps, 3):
             goEPA("SENSOR","SENSOR_DB")
-        if judge_T01.range_second(timstamps, 63):     
+        if judge_T01.range_second(timstamps, 60):     
             goEPA("SENSOR","T01")
             print("GOEPA-T01",now)
-        if judge_T05.range_second(timstamps, 303):
+        if judge_T05.range_second(timstamps, 300):
             goEPA("SENSOR","T05")
             print("GOEPA-T05",now)
-        if judge_T60.range_second(timstamps, 3603):
+        if judge_T60.range_second(timstamps, 3600):
             goEPA("SENSOR","T60")
             print("GOEPA-T60",now)

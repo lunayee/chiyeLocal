@@ -31,20 +31,8 @@ CREATE TABLE `SENSOR_DB` (
   `Value12` float DEFAULT -9999,
   `Value13` float DEFAULT -9999,
   `Value14` float DEFAULT -9999,
-  `Value15` float DEFAULT -9999,
-  `Value16` float DEFAULT -9999,
-  `Value17` float DEFAULT -9999,
-  `Value18` float DEFAULT -9999,
-  `Value19` float DEFAULT -9999,
-  `Value20` float DEFAULT -9999,
-  `Value21` float DEFAULT -9999,
-  `Value22` float DEFAULT -9999,
-  `Value23` float DEFAULT -9999,
-  `Value24` float DEFAULT -9999,
-  `Value25` float DEFAULT -9999,
-  `Value26` float DEFAULT -9999,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=275529 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `SENSOR_DB` ( `Proj_ID`, `STID`) VALUES ('200209','3100024');
 --
@@ -64,14 +52,9 @@ CREATE TABLE `STANDARD_DB` (
   `Value5` float DEFAULT -9999,
   `Value6` float DEFAULT -9999,
   `Value7` float DEFAULT -9999,
-  `Value8` float DEFAULT -9999,
-  `Value9` float DEFAULT -9999,
-  `Value10` float DEFAULT -9999,
-  `Value11` float DEFAULT -9999,
-  `Value12` float DEFAULT -9999,
-  `Value13` float DEFAULT -9999,
+
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `STANDARD_DB` ( `Value1`) VALUES ('-9999');
 --
@@ -100,20 +83,8 @@ CREATE TABLE `T01` (
   `Value12` float DEFAULT -9999,
   `Value13` float DEFAULT -9999,
   `Value14` float DEFAULT -9999,
-  `Value15` float DEFAULT -9999,
-  `Value16` float DEFAULT -9999,
-  `Value17` float DEFAULT -9999,
-  `Value18` float DEFAULT -9999,
-  `Value19` float DEFAULT -9999,
-  `Value20` float DEFAULT -9999,
-  `Value21` float DEFAULT -9999,
-  `Value22` float DEFAULT -9999,
-  `Value23` float DEFAULT -9999,
-  `Value24` float DEFAULT -9999,
-  `Value25` float DEFAULT -9999,
-  `Value26` float DEFAULT -9999,
   PRIMARY KEY (`ID`,`Time`)
-) ENGINE=InnoDB AUTO_INCREMENT=14163 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `T01` ( `Proj_ID`, `STID`) VALUES ('200209','3100024');
 --
@@ -144,20 +115,8 @@ CREATE TABLE `T05` (
   `Value12` float DEFAULT -9999,
   `Value13` float DEFAULT -9999,
   `Value14` float DEFAULT -9999,
-  `Value15` float DEFAULT -9999,
-  `Value16` float DEFAULT -9999,
-  `Value17` float DEFAULT -9999,
-  `Value18` float DEFAULT -9999,
-  `Value19` float DEFAULT -9999,
-  `Value20` float DEFAULT -9999,
-  `Value21` float DEFAULT -9999,
-  `Value22` float DEFAULT -9999,
-  `Value23` float DEFAULT -9999,
-  `Value24` float DEFAULT -9999,
-  `Value25` float DEFAULT -9999,
-  `Value26` float DEFAULT -9999,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2835 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `T05` ( `Proj_ID`, `STID`) VALUES ('200209','3100024');
 --
@@ -188,20 +147,9 @@ CREATE TABLE `T60` (
   `Value12` float DEFAULT -9999,
   `Value13` float DEFAULT -9999,
   `Value14` float DEFAULT -9999,
-  `Value15` float DEFAULT -9999,
-  `Value16` float DEFAULT -9999,
-  `Value17` float DEFAULT -9999,
-  `Value18` float DEFAULT -9999,
-  `Value19` float DEFAULT -9999,
-  `Value20` float DEFAULT -9999,
-  `Value21` float DEFAULT -9999,
-  `Value22` float DEFAULT -9999,
-  `Value23` float DEFAULT -9999,
-  `Value24` float DEFAULT -9999,
-  `Value25` float DEFAULT -9999,
-  `Value26` float DEFAULT -9999,
+
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=237 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `T60` ( `Proj_ID`, `STID`) VALUES ('200209','3100024');
 --
@@ -228,7 +176,7 @@ CREATE TABLE `INITIAL` (
   `IP` varchar(20) NOT NULL,
   `PORT` varchar(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `INITIAL` ( `Proj_ID`, `STID`, `Address`,`Lng`,`Lat`,`IP`,`PORT`) 
 VALUES ('200209','3100024','高雄市前鎮區8486','22.604671236191162','120.30037062290235','192.168.3.107','3333');
@@ -247,7 +195,7 @@ CREATE TABLE `LABEL` (
   `Name` varchar(10) DEFAULT NULL,
   `IsShow` varchar(5) DEFAULT 'True',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value1','Value1','True');
 INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value2','Value2','True');
@@ -256,12 +204,7 @@ INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value4','Value4','True
 INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value5','Value5','True');
 INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value6','Value6','True');
 INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value7','Value7','True');
-INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value8','Value8','True');
-INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value9','Value9','True');
-INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value10','Value10','True');
-INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value11','Value11','True');
-INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value12','Value12','True');
-INSERT INTO `LABEL` ( `Label`, `Name`, `IsShow`) VALUES ('Value13','Value13','True');
+
 --
 
 --
@@ -282,7 +225,7 @@ CREATE TABLE `RE_VALUE` (
   `b` float DEFAULT 0,
   `offset` float DEFAULT 0,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value1');
 INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value2');
@@ -291,12 +234,7 @@ INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value4');
 INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value5');
 INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value6');
 INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value7');
-INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value8');
-INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value9');
-INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value10');
-INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value11');
-INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value12');
-INSERT INTO `RE_VALUE` ( `Va_Name`) VALUES ('Value13');
+
 --
 
 --
@@ -313,11 +251,11 @@ CREATE TABLE `ST_VALUE` (
   `Value_span` float DEFAULT 0,
   `Count_zero` float DEFAULT 1,
   `Count_span` float DEFAULT 0,
-  `a` float DEFAULT 0,
+  `a` float DEFAULT 1,
   `b` float DEFAULT 0,
   `offset` float DEFAULT 0,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value1');
 INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value2');
@@ -326,12 +264,6 @@ INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value4');
 INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value5');
 INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value6');
 INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value7');
-INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value8');
-INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value9');
-INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value10');
-INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value11');
-INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value12');
-INSERT INTO `ST_VALUE` ( `Va_Name`) VALUES ('Value13');
 --
 
 -- Dump completed on 2022-05-26 15:52:33

@@ -48,7 +48,7 @@ def SaveRevise(request):
         data['b']=x1-(y1*data['a'])
         data['Offset']=int(data['Offset']) if data['Offset'] != "" else 0
         DBmysql.update_mysql("REVISE",("UPDATE `RE_VALUE` SET `Value_zero`='{}',`Value_span`='{}',`Count_zero`='{}',`Count_span`='{}',`a`='{}',`b`='{}',`offset`='{}' where `Va_Name`='{}'").format(data['Value_zero'],data['Value_span'],data['Count_zero'],data['Count_span'],data['a'],data['b'],data['Offset'],data['Item']))
-        print(data)
+        
         return JsonResponse(data)
 
 def SaveTable(request):
@@ -63,12 +63,11 @@ def SaveTable(request):
         data['b']=x1-(y1*data['a'])
         data['Offset']=int(data['Offset']) if data['Offset'] != "" else 0
         DBmysql.update_mysql("REVISE",("UPDATE `ST_VALUE` SET `Value_zero`='{}',`Value_span`='{}',`Count_zero`='{}',`Count_span`='{}',`a`='{}',`b`='{}',`offset`='{}' where `Va_Name`='{}'").format(data['Value_zero'],data['Value_span'],data['Count_zero'],data['Count_span'],data['a'],data['b'],data['Offset'],data['Item']))
-        print(data)
         return JsonResponse(data)
 
 def item_check(request):
     if request.method == "POST":
-        data =json.loads(request.body)
+        data =json.loads(request.body)['checkbox']
         print(data)
         for i in data:
             CheckData = [i.split('_')[0],data[i][1],data[i][0]]
@@ -129,8 +128,11 @@ def showSetting(request):
 
 def showRevise(request):
     Label=DBmysql.read_mysql("REVISE","select `Name` from `LABEL`") 
-    LabelName={"Value01Name":Label[0][0],"Value02Name":Label[1][0],"Value03Name":Label[2][0],"Value04Name":Label[3][0],"Value05Name":Label[4][0],"Value06Name":Label[5][0],"Value07Name":Label[6][0],"Value08Name":Label[7][0],"Value09Name":Label[8][0],"Value10Name":Label[9][0],"Value11Name":Label[10][0],"Value12Name":Label[11][0],"Value13Name":Label[12][0]}
-    context=LabelName
+    LabelName={}
+    for i in range(0,len(Label),1):
+        LabelName[("Value{}").format(i+1)] = Label[i][0]
+    print(LabelName)
+    context={"Data":LabelName}
     return render(request,'home/page-revise.html',context)
 
 #GET    
@@ -139,18 +141,20 @@ def GetDashboard(request):
     Data=[]
     GetData=DBmysql.read_mysql("SENSOR","select * from `SENSOR_DB` ORDER BY `ID` DESC LIMIT 0,1")[0]
     Re_Value=DBmysql.read_mysql("REVISE","select * from `RE_VALUE`,`LABEL` where `Va_Name` = `Label`") 
-    
+    number = int((len(GetData)-4)/2) #有多少測值
     
     isshowid=[]
+    
     for i in Re_Value:
         if i[12] == 'True' :
-            isshowid.append(i[0]-14)
-
-    for i in isshowid:
-        Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item":str(Re_Value[i][11]),"Value_be":str(round(GetData[i+17],2)),"Value_af":str(round(GetData[i+4],2)),"a":str(round(Re_Value[i][6],3)),"b":str(round(Re_Value[i][7],3)),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
-        #Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item":str(Re_Value[i][11]),"Value_be":str(GetData[i+4]),"Value_af":str(GetData[i+17]),"a":str(Re_Value[i][6]),"b":str(Re_Value[i][7]),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
-
+            isshowid.append(i[0]-1)
+    
+    for i in isshowid: #[0,1, 2, 3, 4, 5, 6]
+        Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item":str(Re_Value[i][11]),"Value_be":str(round(GetData[i+4+number],2)),"Value_af":str(round(GetData[i+4],2)),"a":str(round(Re_Value[i][6],3)),"b":str(round(Re_Value[i][7],3)),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
+        
+    
     context={"Data":Data}
+
     return JsonResponse(context)
 
 
@@ -203,21 +207,20 @@ def GetLngLat(request):
 def GetTable(request):
     if request.method == "GET":
         Item=request.GET['Item']
-        #將Value1轉換成Value14
+        ALL_ITEM=DBmysql.read_mysql("SENSOR",("select * from `SENSOR_DB` ORDER BY `ID` DESC LIMIT 0,1"))[0]
+        number = int((len(ALL_ITEM)-4)/2)#判斷校正後的值在哪一欄位
         
-        X=Item
-        y=X.split("Value")
-        change_Item = "Value"+str(int(y[1])+13)
+        
+        y=Item.split("Value")
+        change_Item = "Value"+str(int(y[1])+number)
         #Item = "Value1"
-        #Value_af=DBmysql.read_mysql("SENSOR",("select `{}` from `STANDARD_DB` ORDER BY `ID` DESC LIMIT 0,1").format(Item))[0]
         Value_be=DBmysql.read_mysql("SENSOR",("select `{}` from `SENSOR_DB` ORDER BY `ID` DESC LIMIT 0,1").format(change_Item))[0]
+        
         ST_VALUE=DBmysql.read_mysql("REVISE",("select `a`,`b`,`offset` from `ST_VALUE` WHERE `Va_Name` = '{}' ").format(Item))[0]
         a=ST_VALUE[0]
         b=ST_VALUE[1]
         offset=ST_VALUE[2]
         calValue_af=Value_be[0]*a+b+offset
-
-        print(Value_be[0])
         
         context={"Value_be":Value_be[0],"calValue_af":calValue_af,"a":a,"b":b,"offset":offset}
     return JsonResponse(context)
@@ -256,14 +259,6 @@ def export_json(filename,json_data):
         json.dump(json_data,f)
         f.close()
 
-def sendsocket(msg):
-    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    initial = DBmysql.read_mysql("REVISE", "select * from `INITIAL`")
-    IP = initial[0][6]
-    PORT = initial[0][7]
-    ADDR = (IP, int(PORT))
-    client.sendto(msg.encode('utf-8'), ADDR)
-    return client
 
 
 def recover(request):#SaveBackup
