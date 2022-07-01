@@ -1,6 +1,6 @@
 import MySQLdb
 import datetime
-
+import csv
 
 def connected_mysql(DBNAME):##connected_mysql("SENSOR")
     
@@ -49,6 +49,7 @@ def update_mysql(DBNAME,SQL):##update_mysql("REVISE","UPDATE `LABEL` SET `Name`=
 
 
 if __name__=='__main__':
-    range_data = read_mysql( "SENSOR", ("select Value1,Value2,Value3,Value4,Value5,Value6,Value7 from T01 where Time >= '{}' and Time < '{}' and Value1 <> -9999;").format('2022-06-28 9:00:00', '2022-06-28 10:00:00'))
-
+    StartTime = "2022-06-28"
+    EndTime = "2022-06-29"
+    range_data = read_mysql( "SENSOR", ("select Value1,Value2,Value3,Value4 from SENSOR_DB where Time >= '{}' and Time < '{}' limit 2,3 ;").format(StartTime, EndTime))
     print(range_data)

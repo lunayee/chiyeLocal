@@ -83,11 +83,11 @@
           <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="savebtn">Search</button>
       </div>
       <div class="col-3 col-sm-2 col-md-auto col-lg-2 col-xl-auto mb-2">
-          <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="exportbtn">Export</button>
+        <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="backupbtn">回補</button>
       </div>
       <div class="col-3 col-sm-2 col-md-auto col-lg-2 col-xl-auto mb-2">
-        <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="backupbtn">回補</button>
-    </div>
+        <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="exportbtn">報表匯出</button>
+      </div>
     </div>
   </div>
 </div>
@@ -244,7 +244,7 @@
     });
 
     axios
-      .get("/getHistory/", {
+      .get("./getHistory/", {
         params: {
           st: st,
           et: et,
@@ -313,16 +313,34 @@
     $("#loading_css").show();
     updateTable(StartTime.value, EndTime.value, page, count);
   });
+
   exportbtn.addEventListener("click", function () {
-    axios.get("/GetExport/", { params: { st: StartTime.value, et: EndTime.value, table: table1_0.value, SwitchCheck_all: SwitchCheck_all } }).then(function (resp) {
+    axios.get("./GetExport/", { params: { st: StartTime.value, et: EndTime.value } })
+    .then(function (resp) {
+      const url = window.URL
+                  .createObjectURL(new Blob([resp.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', '交通噪音監測資料.csv');
+      //document.body.appendChild(link);
+      link.click();
+      //document.body.removeChild(link);
       Toast.fire({
         icon: "success",
-        title: "Export成功！",
+        title: "報表匯出成功！",
       });
-    });
+    })
+    .catch(function(resp){
+          Toast.fire({
+              icon: 'error',
+              title: '報表匯出失敗！'
+            })
+          console.log(err);
+      });
   });
+
   backupbtn.addEventListener("click", function () {
-    axios.get("/recover/", { params: { st: StartTime.value, et: EndTime.value, table: table1_0.value } })
+    axios.get("./recover/", { params: { st: StartTime.value, et: EndTime.value, table: table1_0.value } })
     .then(function(resp){
             Toast.fire({
                 icon: 'success',

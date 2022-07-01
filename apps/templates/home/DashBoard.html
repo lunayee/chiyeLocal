@@ -169,7 +169,7 @@
     }
     item_check.addEventListener("click",function(){
         axios
-        .post("/SaveRevise/",{Item:Item.textContent,Value_zero: valueRe[0].value,Value_span: valueRe[1].value,Count_zero: valueRe[2].value,Count_span: valueRe[3].value,Offset: valueRe[4].value})
+        .post("./SaveRevise/",{Item:Item.textContent,Value_zero: valueRe[0].value,Value_span: valueRe[1].value,Count_zero: valueRe[2].value,Count_span: valueRe[3].value,Offset: valueRe[4].value})
         .then(function(resp){
             Toast.fire({
                 icon: 'success',
@@ -188,7 +188,7 @@
 
     function checkinfo(){
         axios
-        .get("/GetDashboard/")
+        .get("./GetDashboard/")
         .then(function(resp){
             var showDashboard = document.querySelectorAll('.showDashboard')
             var html_list=['.Date_Time','.Item_name','.Status','.Value_af','.Diff']

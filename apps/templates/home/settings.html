@@ -147,7 +147,7 @@
 
     submitbtn.addEventListener("click", function() {
       axios
-        .post("/Inpsetting/", { pjid: pjid.value,stid: stid.value,address:address.value,Lng:Lng.value,Lat:Lat.value,area:area.value,ip:ip.value,port:port.value })
+        .post("./Inpsetting/", { pjid: pjid.value,stid: stid.value,address:address.value,Lng:Lng.value,Lat:Lat.value,area:area.value,ip:ip.value,port:port.value })
         .then(function (resp) {
             Toast.fire({
                 icon: 'success',
@@ -166,7 +166,7 @@
 
     contentbtn.addEventListener('click',function(){
         axios
-        .post("/connect_server/",{ip:ip.value,port:port.value})
+        .post("./connect_server/",{ip:ip.value,port:port.value})
         .then(function (resp) {
             Toast.fire({
                 icon: 'success',
@@ -188,7 +188,7 @@
 <script>
     function initMap() {
         axios
-        .get("GetLngLat/")
+        .get("./GetLngLat/")
         .then(function(resp){
             var corrd = {lat: resp.data["lat"], lng: resp.data["lng"]};
             var map = new google.maps.Map(document.getElementById('map'), {

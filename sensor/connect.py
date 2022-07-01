@@ -3,16 +3,14 @@ import time
 import datetime
 import DBmysql
 import math
-
+import SixSensor
 
 def getaDate():
-    # Value1-6校正後的值 Value14-19校正前的值
+    # Value1-7校正後 Value8-14校正前
     DATA = sensor.Sensor()
     AF_DATA = {}
-    # Value1-7校正後 Value14-20校正前
-
-    comparison = getComparison()
     
+    comparison = getComparison()
     
     for af, be in comparison.items():
         search = DBmysql.read_mysql(
@@ -33,7 +31,7 @@ def getInitial():
 
 def getComparison():
     #{'Value1': 'Value14', 'Value2': 'Value15', 'Value3': 'Value16','Value4': 'Value17', 'Value5': 'Value18', 'Value6': 'Value19', 'Value7': 'Value20'}
-    number = DBmysql.read_mysql_column_name("SENSOR", "select * from T01;")
+    number = DBmysql.read_mysql_column_name("SENSOR", "select * from T01 LIMIT 1;")
     itemnumber = int((len(number)-4)/2)
     comparison = {}
     for i in range(1,itemnumber+1,1):
@@ -53,6 +51,33 @@ def cal_N(Val):  # 第1個數字-Value1
     except:
         return -9999
 
+def cal_WSWD(Val):#cal_WSWD([[0,2,90,0,0,0,0]])
+    data_WS = []
+    data_WD = []
+    radian = math.pi/180 #弧度
+    if len(Val) == 0:return -9999,-9999 #如果傳值進來裡面是空的
+    for i in range(len(Val)):
+        if Val[i][1] != -9999:
+            x = Val[i][1]*math.sin(Val[i][2]*radian)
+            y = Val[i][1]*math.cos(Val[i][2]*radian)
+            data_WS.append(x) #Value2
+            data_WD.append(y) #Value3       
+    if len(data_WS) ==0:return -9999,-9999 #如果迴圈裡面沒值
+    x_sum = sum(data_WS)
+    y_sum = sum(data_WD)
+    avg_WD = math.atan2(x_sum, y_sum)/radian
+    avg_WS = ((x_sum**2+y_sum**2)**0.5)/len(data_WS)
+    
+    if avg_WD < 0 : #如果風向負的
+        avg_WD = avg_WD+360
+
+    if avg_WD == 0 : #如果風速=0
+        data_WD=[]
+        for i in range(len(Val)):
+            data_WD.append(Val[i][2])
+        avg_WD = sum(data_WD)/len(data_WD)
+
+    return avg_WS,avg_WD
 
 
 def cal_tmp(Val):#cal_tmp([[0,0,0,28.1,0,0,0]])
@@ -105,8 +130,8 @@ def All_mean(ago, aft):
     af_item = ",".join(af_item)
     range_data = DBmysql.read_mysql( "SENSOR", ("select {} from SENSOR_DB where Time >= '{}' and Time < '{}' ;").format(af_item,ago, aft))
     DATA['Value1'] = cal_N(range_data)
-    DATA['Value2'] = 3
-    DATA['Value3'] = 3
+    DATA['Value2'] = cal_WSWD(range_data)[0]
+    DATA['Value3'] = cal_WSWD(range_data)[1]
     DATA['Value4'] = cal_tmp(range_data)
     DATA['Value5'] = cal_hum(range_data)
     DATA['Value6'] = cal_rain(range_data)
@@ -142,6 +167,7 @@ judge_T01 = time_judge()
 judge_T05 = time_judge()
 judge_T60 = time_judge()
 
+
 if realtime() ==  True:
     while(1):
         now = datetime.datetime.now()
@@ -156,7 +182,7 @@ if realtime() ==  True:
             aft = judge_T01.cal_time(now, 0, '%Y-%m-%d %H:%M:00')
             DATA = All_mean(ago, aft)
             DATA['Time'] = ago
-            #print(DATA)
+            print(DATA)
             DBmysql.write_mysql("SENSOR", "T01", DATA)
             print("LOCAL-T01", ago)
         if judge_T05.range_second(timstamps, 300):
@@ -172,4 +198,5 @@ if realtime() ==  True:
             DATA = All_mean(ago, aft)
             DATA['Time'] = ago
             DBmysql.write_mysql("SENSOR", "T60", DATA)
+            SixSensor.cleanRain()
             print("LOCAL-T60", ago)

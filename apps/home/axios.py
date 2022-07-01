@@ -1,13 +1,10 @@
 from importlib.resources import contents
 from django.shortcuts import redirect, render
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 import json
 from . import DBmysql
 import datetime
 import math
-import json
-import socket
-import time
 import datetime
 import requests
 
@@ -226,40 +223,31 @@ def GetTable(request):
     return JsonResponse(context)
     
 def GetExport(request):
+    import csv
+    import codecs
     if request.method == "GET":
         StartTime=request.GET['st']
         EndTime=request.GET['et']
-        Table=request.GET['table']
-        SwitchCheck_all=eval(request.GET['SwitchCheck_all']) 
-        check=[]
-        checkname=[]
+        GetData=DBmysql.read_mysql("SENSOR",("select Time,Value1 from T60 WHERE Time >= '{}' and Time < '{}'").format(StartTime,EndTime))
         
-        for i,j in SwitchCheck_all.items():
-            if j[1]=='true':
-                check.append(i)
-                checkname.append(j[0])
-        str_check="`,`".join(check)
+        All_Data={}
+        for lengh in range(0,len(GetData),1):  
+            Time = datetime.datetime.strftime(GetData[lengh][0],'%Y-%m-%d')
+            All_Data.setdefault(Time,["" for i in range(24)])
+            All_Data[Time][GetData[lengh][0].hour]=GetData[lengh][1]
+
+        response = HttpResponse(content_type='text/csv')
+        response.write(codecs.BOM_UTF8)
+        response.charset = 'utf-8-sig'
+        response['Content-Disposition'] = 'attachment'
+        writer = csv.writer(response)
+        writer.writerow(["監測站名(地點)", "監測站編號", "緊鄰道路寬度", "管制區","年","月","日"]+[("{}-{}時").format(i,i+1)for i in range(24)])
         
-        GetData=DBmysql.read_mysql("SENSOR",("select `Time`,`{}` from `{}` WHERE `Time` >= '{}' and `Time` < '{}'").format(str_check,Table,StartTime,EndTime))
-        total = len(GetData)
-        DATA=[]
-        for i in range(total):
-            dic_data={}
-            Time=datetime.datetime.strftime(GetData[i][0],'%Y-%m-%d %H:%M:%S')
-            dic_data["Date_Time"]=Time
-            for num in range(len(check)):
-                dic_data[check[num]]=GetData[i][num+1]
-                
-            DATA.append(dic_data)
-        export_json(('/home/pi/High-Precision-AD-DA-Board-Code/RaspberryPI/ADS1256/python3/log/{} - {}').format(StartTime,EndTime),DATA)
-    return JsonResponse({"Data":DATA})
+        for key,item in All_Data.items():
+            date=key.split("-") #日期
+            writer.writerow(["嘉義市環保局","2332623TN001",30,3,int(date[0]),int(date[1]),int(date[2])]+item)
 
-def export_json(filename,json_data):
-    with open(filename,'w') as f:
-        json.dump(json_data,f)
-        f.close()
-
-
+        return response
 
 def recover(request):#SaveBackup
     if request.method == "GET":

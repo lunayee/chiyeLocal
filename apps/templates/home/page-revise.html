@@ -189,7 +189,7 @@
 
             item_check.addEventListener("click", function () {
                 axios
-                    .post("/item_check/", {checkbox
+                    .post("./item_check/", {checkbox
                     })
                     .then(function (resp) {
                         Toast.fire({
@@ -209,7 +209,7 @@
             table1_0.addEventListener("change", GetData)
             function GetData() {
                 axios
-                    .get("/GetTable/", { params: { "Item": table1_0.value } })
+                    .get("./GetTable/", { params: { "Item": table1_0.value } })
                     .then(function (resp) {
                         return resp.data;
                     })
@@ -242,7 +242,7 @@
                     lsit_tab.push(document.getElementById(ta))
                 }
                 axios
-                    .post("/SaveTable/", { Item: table1_0.value, Value_zero: lsit_tab[0].value, Value_span: lsit_tab[1].value, Count_zero: lsit_tab[2].value, Count_span: lsit_tab[3].value, Offset: lsit_tab[4].value })
+                    .post("./SaveTable/", { Item: table1_0.value, Value_zero: lsit_tab[0].value, Value_span: lsit_tab[1].value, Count_zero: lsit_tab[2].value, Count_span: lsit_tab[3].value, Offset: lsit_tab[4].value })
                     .then(function (data) {
                         var a = document.getElementById("a");
                         var b = document.getElementById("b");

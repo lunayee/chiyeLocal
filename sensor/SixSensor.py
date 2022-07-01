@@ -1,7 +1,10 @@
+from asyncore import write
+from csv import writer
+from re import T
 import serial
 import modbus_tk.modbus_rtu as rtu
 import time
-
+import DBmysql
 
 
 def SIXSENSOR():
@@ -23,12 +26,21 @@ def SIXSENSOR():
         return (-9999,-9999,-9999,-9999,-9999,-9999)
 
 def cleanRain():
-    read_values = master.execute(1,6,0x5A,output_value=0x5A)
+    ser = serial.Serial(port='COM3',baudrate=4800,bytesize=8,parity="N",stopbits=1)
+    master = rtu.RtuMaster(ser)
+    master.set_timeout(1.0)
+    master.set_verbose(True)
+    read_values = master.execute(1,6,24578,output_value=0x5A)
     return read_values
 
 
 
 if __name__=='__main__':
-    while(1):
-        print(SIXSENSOR())
+    print(SIXSENSOR())
+    time.sleep(3)
+
+    cleanRain()
+
+    print(SIXSENSOR())
+    
     
