@@ -177,17 +177,18 @@
             var showRevise = {{ Data|safe }};
 
             var checkbox = {}
-            for(var key in showRevise){
-                var id_checkbox  = key + "_checkbox";
-                var id_name  = key + "_name";
-                var el_checkbox  = document.getElementById(id_checkbox)
-                var el_name   = document.getElementById(id_name)
-                checkbox[id_checkbox] = [el_checkbox.checked,el_name.value]
-            }
+            
 
             
 
             item_check.addEventListener("click", function () {
+                for(var key in showRevise){
+                    var id_checkbox  = key + "_checkbox";
+                    var id_name  = key + "_name";
+                    var el_checkbox  = document.getElementById(id_checkbox)
+                    var el_name   = document.getElementById(id_name)
+                    checkbox[id_checkbox] = [el_checkbox.checked,el_name.value]
+                }
                 axios
                     .post("./item_check/", {checkbox
                     })

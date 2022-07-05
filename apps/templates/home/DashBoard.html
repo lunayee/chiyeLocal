@@ -29,7 +29,7 @@
                         <div class="row d-block d-flex align-items-center">
                             <div class="col-4 col-sm-4 col-xl-4">
                                 <div class="icon-shape rounded bgcolor-gold">
-                                    <h3 class="fw-extrabold mb-1 px-2 Item_name">Item</h3>
+                                    <h3 class="fw-extrabold mb-1 px-2 Item_name">Item_name</h3>
                                 </div>
                                 <div class="d-flex align-items-center mb-1">
                                     <div class="{{item.Status_Col}} mx-1"></div>
@@ -75,7 +75,7 @@
                                 <div class="card card-body border-3 shadow mb-4">
                                     <div class="d-lg-flex mb-0">
                                         <div class="fs-3  me-auto">
-                                            <h3 id="Item">Item</h3>
+                                            <h3 id="Item_name">Item_name</h3>
                                         </div>
                                         <div class="d-flex flex-lg-column flex-xl-row align-items-end fs-7 ms-2">
                                             <div class="mx-1">
@@ -162,6 +162,7 @@
 
     var item_check = document.getElementById("item_check") 
     var Item = document.getElementById("Item");
+    
     var valueRe = []
     for(i=1;i<6;i++){
         var ch='valueRe_'+i;
@@ -169,7 +170,7 @@
     }
     item_check.addEventListener("click",function(){
         axios
-        .post("./SaveRevise/",{Item:Item.textContent,Value_zero: valueRe[0].value,Value_span: valueRe[1].value,Count_zero: valueRe[2].value,Count_span: valueRe[3].value,Offset: valueRe[4].value})
+        .post("./SaveRevise/",{Item_name:Item_name.textContent,Value_zero: valueRe[0].value,Value_span: valueRe[1].value,Count_zero: valueRe[2].value,Count_span: valueRe[3].value,Offset: valueRe[4].value})
         .then(function(resp){
             Toast.fire({
                 icon: 'success',
@@ -185,40 +186,48 @@
         })
         
     })
-
-    function checkinfo(){
+    var funs = [
+    function (showDashboard, data) {
+      //showDashboard
+      var Value_af_el = showDashboard.querySelector(".Value_af");
+      var Value_af = parseFloat(data["Value_af"]);
+      Value_af_el.classList[Value_af >= 52.3 ? "add" : "remove"]("changecolor");
+      
+    },
+  ];
+    function checkinfo() {
         axios
-        .get("./GetDashboard/")
-        .then(function(resp){
-            var showDashboard = document.querySelectorAll('.showDashboard')
-            var html_list=['.Date_Time','.Item_name','.Status','.Value_af','.Diff']
-            var data_list=['Date_Time','Item','Status','Value_af','Diff']
-            var id_list=['Item','a','b','offset','Value_be','Value_af']
-
-            showDashboard.forEach(function(showDashboard,index){
-                    html_list.forEach(function(list,count){
-                        
-                        var el  = showDashboard.querySelector(list)
-                        el.textContent = resp.data.Data[index][data_list[count]]
-                        
-                    })
-                    var revisebtn  = showDashboard.querySelector(".revise")
-                    revisebtn.addEventListener("click",function(){
-                        id_list.forEach(function(list){
-                            var el=document.getElementById(list);
-                            el.textContent=resp.data.Data[index][list];
-                        })
-                    })
-            })
-        })
-        .catch(function (err) {
+          .get("./GetDashboard/")
+          .then(function (resp) {
+            var showDashboard = document.querySelectorAll(".showDashboard");
+            var html_list = ["Date_Time", "Item_name", "Value_af"];
+            var id_list = ["Item_name", "a", "b", "offset", "Value_be", "Value_af"];
+    
+            showDashboard.forEach(function (showDashboard, index) {
+              var fun = funs[index];
+    
+              html_list.forEach(function (list, count) {
+                var el = showDashboard.querySelector("." + list);
+                el.textContent = resp.data.Data[index][list];
+              });
+              fun && fun(showDashboard, resp.data.Data[index]);
+              var revisebtn = showDashboard.querySelector(".revise");
+              revisebtn.addEventListener("click", function () {
+                id_list.forEach(function (list) {
+                  var el = document.getElementById(list);
+                  el.textContent = resp.data.Data[index][list];
+                });
+              });
+            });
+          })
+          .catch(function (err) {
             Toast.fire({
-                icon: 'error',
-                title: '讀取資料失敗！'
-            })
+              icon: "error",
+              title: "讀取資料失敗！",
+            });
             console.log(err);
-        });
-    }   
+          });
+      }   
     function loop_check(){
         checkinfo();
         setTimeout("loop_check()",2000);

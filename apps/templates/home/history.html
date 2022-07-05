@@ -340,6 +340,8 @@
   });
 
   backupbtn.addEventListener("click", function () {
+    $("#loading").show();
+    $("#loading_css").show();
     axios.get("./recover/", { params: { st: StartTime.value, et: EndTime.value, table: table1_0.value } })
     .then(function(resp){
             Toast.fire({
@@ -354,7 +356,8 @@
               })
             console.log(err);
         })
-    
+    $("#loading").hide();
+    $("#loading_css").hide();
   });
   
 });

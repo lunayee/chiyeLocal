@@ -8,18 +8,18 @@ import math
 import datetime
 import requests
 
-URL = "http://192.168.3.107:8000/"
 #POST
 def Inpsetting(request):
     if request.method == "POST":
         data =json.loads(request.body)
+        print(data)
         if data['area']=="無":
             data['ip']=0
             data['port']=0
         if data['area']=="1":
             data['ip']='125.227.111.239'
             data['port']=3333
-        SQL = ("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=2").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port'])
+        SQL = ("UPDATE `INITIAL` SET `Proj_ID`='{}',`STID`='{}',`Address`='{}',`Lng`='{}',`Lat`='{}',`IP`='{}',`PORT`='{}' where `ID`=1").format(data['pjid'],data['stid'],data['address'],data['Lng'],data['Lat'],data['ip'],data['port'])
         DBmysql.update_mysql("REVISE",SQL)
         return JsonResponse(data)
 
@@ -33,10 +33,11 @@ def connect_server(request):
 def SaveRevise(request):
     if request.method == "POST":
         data =json.loads(request.body)
+        print(data)
         Label=DBmysql.read_mysql("REVISE","select `Label`,`NAME` from `LABEL` where `IsShow`='True'")
         for la in Label:
-            if data['Item'] in la:
-                data['Item']=la[0]
+            if data['Item_name'] in la:
+                data['Item_name']=la[0]
         x1=int(data['Value_zero'])
         x2=int(data['Value_span'])
         y1=int(data['Count_zero'])
@@ -44,7 +45,7 @@ def SaveRevise(request):
         data['a']=(x2-x1)/(y2-y1)
         data['b']=x1-(y1*data['a'])
         data['Offset']=int(data['Offset']) if data['Offset'] != "" else 0
-        DBmysql.update_mysql("REVISE",("UPDATE `RE_VALUE` SET `Value_zero`='{}',`Value_span`='{}',`Count_zero`='{}',`Count_span`='{}',`a`='{}',`b`='{}',`offset`='{}' where `Va_Name`='{}'").format(data['Value_zero'],data['Value_span'],data['Count_zero'],data['Count_span'],data['a'],data['b'],data['Offset'],data['Item']))
+        DBmysql.update_mysql("REVISE",("UPDATE `RE_VALUE` SET `Value_zero`='{}',`Value_span`='{}',`Count_zero`='{}',`Count_span`='{}',`a`='{}',`b`='{}',`offset`='{}' where `Va_Name`='{}'").format(data['Value_zero'],data['Value_span'],data['Count_zero'],data['Count_span'],data['a'],data['b'],data['Offset'],data['Item_name']))
         
         return JsonResponse(data)
 
@@ -147,7 +148,7 @@ def GetDashboard(request):
             isshowid.append(i[0]-1)
     
     for i in isshowid: #[0,1, 2, 3, 4, 5, 6]
-        Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item":str(Re_Value[i][11]),"Value_be":str(round(GetData[i+4+number],2)),"Value_af":str(round(GetData[i+4],2)),"a":str(round(Re_Value[i][6],3)),"b":str(round(Re_Value[i][7],3)),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
+        Data.append({"Date_Time":GetData[1],"ProjID":str(GetData[2]),"STID":str(GetData[3]),"Item_name":str(Re_Value[i][11]),"Value_be":str(round(GetData[i+4+number],2)),"Value_af":str(round(GetData[i+4],2)),"a":str(round(Re_Value[i][6],3)),"b":str(round(Re_Value[i][7],3)),"offset":str(Re_Value[i][8]),"isshow":Re_Value[i][12]})
         
     
     context={"Data":Data}
@@ -259,7 +260,11 @@ def recover(request):#SaveBackup
 
         context = {'DATABASE':'SENSOR','TABLE':Table,'column_name':column_name,'value':GetData}
         goEpaContext=json.dumps(context, indent=4, sort_keys=True, default=str)
-        url = URL
+        Initial = DBmysql.read_mysql("REVISE","select * from `INITIAL`")
+        ip = Initial[0][6]
+        port = Initial[0][7]
+        url = "http://"+ip+":"+port+"/"
+        
         requests.post(url+'SaveBackup/', json=goEpaContext)
 
         
