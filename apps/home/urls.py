@@ -22,6 +22,7 @@ urlpatterns = [
     path('GetLngLat/',axios.GetLngLat),
     path('GetTable/',axios.GetTable),
     path('GetExport/',axios.GetExport),
+    path('GetDownload/',axios.GetDownload),
     
 
     # show

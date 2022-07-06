@@ -86,6 +86,9 @@
         <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="backupbtn">回補</button>
       </div>
       <div class="col-3 col-sm-2 col-md-auto col-lg-2 col-xl-auto mb-2">
+        <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="downloadbtn">下載</button>
+      </div>
+      <div class="col-3 col-sm-2 col-md-auto col-lg-2 col-xl-auto mb-2">
         <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit" id="exportbtn">報表匯出</button>
       </div>
     </div>
@@ -312,6 +315,39 @@
     $("#loading").show();
     $("#loading_css").show();
     updateTable(StartTime.value, EndTime.value, page, count);
+  });
+  
+  downloadbtn.addEventListener("click", function () {
+    var SwitchCheck_all = {};
+    var SwitchCheck = document.querySelectorAll("input[type=checkbox]");
+
+    SwitchCheck.forEach(function (d) {
+      SwitchCheck_all[d.value] = [d.placeholder.toString(), d.checked.toString()];
+    });
+
+    axios.get("./GetDownload/",{ params: { st: StartTime.value, et: EndTime.value,table: table1_0.value,SwitchCheck_all: SwitchCheck_all, } } )
+    .then(function (resp) {
+      console.log(resp)
+      const url = window.URL
+                  .createObjectURL(new Blob([resp.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', StartTime.value.toString()+'-'+EndTime.value.toString()+'歷史資料.csv');
+      //document.body.appendChild(link);
+      link.click();
+      //document.body.removeChild(link);
+      Toast.fire({
+        icon: "success",
+        title: "歷史資料下載成功！",
+      });
+    })
+    .catch(function(resp){
+          Toast.fire({
+              icon: 'error',
+              title: '歷史資料下載失敗！'
+            })
+          console.log(err);
+      });
   });
 
   exportbtn.addEventListener("click", function () {

@@ -7,6 +7,8 @@ import datetime
 import math
 import datetime
 import requests
+import csv
+import codecs
 
 #POST
 def Inpsetting(request):
@@ -129,8 +131,9 @@ def showRevise(request):
     LabelName={}
     for i in range(0,len(Label),1):
         LabelName[("Value{}").format(i+1)] = Label[i][0]
-    print(LabelName)
+    
     context={"Data":LabelName}
+    print(context)
     return render(request,'home/page-revise.html',context)
 
 #GET    
@@ -223,9 +226,35 @@ def GetTable(request):
         context={"Value_be":Value_be[0],"calValue_af":calValue_af,"a":a,"b":b,"offset":offset}
     return JsonResponse(context)
     
+def GetDownload(request):
+    if request.method == "GET":
+        StartTime=request.GET['st']
+        EndTime=request.GET['et']
+        Table=request.GET['table']
+        SwitchCheck_all=eval(request.GET['SwitchCheck_all'])     
+              
+        check=[]
+        checkname=[]
+        for i,j in SwitchCheck_all.items():
+            if j[1]=='true':
+                check.append(i)
+                checkname.append(j[0])
+        str_check="`,`".join(check)
+        
+        GetData=DBmysql.read_mysql("SENSOR",("select `Time`,`{}` from `{}` WHERE `Time` >= '{}' and `Time` < '{}'").format(str_check,Table,StartTime,EndTime))
+        
+        response = HttpResponse(content_type='text/csv')
+        response.write(codecs.BOM_UTF8)
+        response.charset = 'utf-8-sig'
+        response['Content-Disposition'] = 'attachment'
+        writer = csv.writer(response)
+        writer.writerow(["時間"]+checkname)
+        for item in GetData:
+            writer.writerow(item)
+        return response
+
 def GetExport(request):
-    import csv
-    import codecs
+    
     if request.method == "GET":
         StartTime=request.GET['st']
         EndTime=request.GET['et']

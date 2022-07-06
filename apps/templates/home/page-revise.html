@@ -46,13 +46,15 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-xl-12 d-flex flex-wrap ">
-                            {% for item in Data %}
-                            <div class="form-check  form-control-lg d-flex flex-row col-12 col-xl-6 ">
-                                <input class="form-check-input me-2" type="checkbox" id="{{item}}_checkbox" checked>
-                                <label class="form-check-label" for="{{item}}_name">{{item}}：</label>
-                                <input class="input-underline pb-2" type="text" id="{{item}}_name" value={{item}}>
-                            </div>
+                            {% for key, value in Data.items %}
+                                <div class="form-check  form-control-lg d-flex flex-row col-12 col-xl-6 ">
+                                    <input class="form-check-input me-2" type="checkbox" id="{{key}}_checkbox" checked>
+                                    <label class="form-check-label" for="{{key}}_name">{{key}}：</label>
+                                    <input class="input-underline pb-2" type="text" id="{{key}}_name" value={{value}}>
+                                </div>
                             {% endfor %}
+                            
+
                         </div>
                     </div>
                 </div>
@@ -72,8 +74,8 @@
                 <div class="fs-3  me-auto">
                     <select class="form-select" id="table1_0" aria-label="Item" style="font-size: 18px;">
                         <option value=1 selected>選擇測項　　</option>
-                        {% for item in Data %}
-                        <option>{{item}}</option>
+                        {% for key, value in Data.items %}
+                        <option value={{key}}>{{value}}</option>
                         {% endfor %}
                     </select>
                 </div>
