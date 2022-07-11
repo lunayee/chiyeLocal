@@ -169,6 +169,7 @@ judge_T60 = time_judge()
 
 
 if realtime() ==  True:
+    time.sleep(60)
     while(1):
         now = datetime.datetime.now()
         timstamps = int(now.timestamp())
@@ -182,7 +183,7 @@ if realtime() ==  True:
             aft = judge_T01.cal_time(now, 0, '%Y-%m-%d %H:%M:00')
             DATA = All_mean(ago, aft)
             DATA['Time'] = ago
-            print(DATA)
+            #print(DATA)
             DBmysql.write_mysql("SENSOR", "T01", DATA)
             print("LOCAL-T01", ago)
         if judge_T05.range_second(timstamps, 300):

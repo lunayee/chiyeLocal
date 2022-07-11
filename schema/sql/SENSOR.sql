@@ -168,8 +168,8 @@ DROP TABLE IF EXISTS `INITIAL`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `INITIAL` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Proj_ID` varchar(8) NOT NULL,
-  `STID` varchar(8) DEFAULT NULL,
+  `Proj_ID` varchar(15) NOT NULL,
+  `STID` varchar(15) DEFAULT NULL,
   `Address` varchar(30) NOT NULL,
   `Lng` varchar(20) NOT NULL,
   `Lat` varchar(20) NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE `INITIAL` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `INITIAL` ( `Proj_ID`, `STID`, `Address`,`Lng`,`Lat`,`IP`,`PORT`) 
-VALUES ('200209','3100024','高雄市前鎮區8486','22.604671236191162','120.30037062290235','192.168.3.107','3333');
+VALUES ('嘉義市環保局','2332623TN001','嘉義市東區忠孝路307號','22.488493','120.4529439','192.168.3.107','4000');
 --
 
 --

@@ -55,6 +55,7 @@ judge_T05 = time_judge()
 judge_T60 = time_judge()
 
 if judge_T001.realtime() ==  True:
+    time.sleep(60)
     while(1):
         try:
             now = datetime.datetime.now()
