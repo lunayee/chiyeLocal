@@ -1,0 +1,3 @@
+遇到資料庫編碼上的錯誤可以在docker-compose.yml的db添加此句
+command: >
+    bash -c "chmod 644 /etc/mysql/conf.d/*.cnf && /entrypoint.sh mysqld"
