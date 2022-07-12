@@ -15,8 +15,8 @@ DROP TABLE IF EXISTS `SENSOR_DB`;
 CREATE TABLE `SENSOR_DB` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Proj_ID` varchar(15) DEFAULT NULL,
-  `STID` varchar(15) DEFAULT NULL,
+  `Proj_ID` varchar(20) DEFAULT NULL,
+  `STID` varchar(20) DEFAULT NULL,
   `Value1` float DEFAULT -9999,
   `Value2` float DEFAULT -9999,
   `Value3` float DEFAULT -9999,
@@ -34,7 +34,7 @@ CREATE TABLE `SENSOR_DB` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
-INSERT INTO `SENSOR_DB` ( `Proj_ID`, `STID`) VALUES ('嘉義市環保局','2332623TN001');
+INSERT INTO `SENSOR_DB` ( `Proj_ID`, `STID`) VALUES ('Chaiyi_EPB','2332623TN001');
 --
 
 -- Table structure for table `STANDARD_DB`
@@ -67,8 +67,8 @@ DROP TABLE IF EXISTS `T01`;
 CREATE TABLE `T01` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Proj_ID` varchar(15) DEFAULT NULL,
-  `STID` varchar(15) DEFAULT NULL,
+  `Proj_ID` varchar(20) DEFAULT NULL,
+  `STID` varchar(20) DEFAULT NULL,
   `Value1` float DEFAULT -9999,
   `Value2` float DEFAULT -9999,
   `Value3` float DEFAULT -9999,
@@ -86,7 +86,7 @@ CREATE TABLE `T01` (
   PRIMARY KEY (`ID`,`Time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
-INSERT INTO `T01` ( `Proj_ID`, `STID`) VALUES ('嘉義市環保局','2332623TN001');
+INSERT INTO `T01` ( `Proj_ID`, `STID`) VALUES ('Chaiyi_EPB','2332623TN001');
 --
 
 --
@@ -99,8 +99,8 @@ DROP TABLE IF EXISTS `T05`;
 CREATE TABLE `T05` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Proj_ID` varchar(15) DEFAULT NULL,
-  `STID` varchar(15) DEFAULT NULL,
+  `Proj_ID` varchar(20) DEFAULT NULL,
+  `STID` varchar(20) DEFAULT NULL,
   `Value1` float DEFAULT -9999,
   `Value2` float DEFAULT -9999,
   `Value3` float DEFAULT -9999,
@@ -118,7 +118,7 @@ CREATE TABLE `T05` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
-INSERT INTO `T05` ( `Proj_ID`, `STID`) VALUES ('嘉義市環保局','2332623TN001');
+INSERT INTO `T05` ( `Proj_ID`, `STID`) VALUES ('Chaiyi_EPB','2332623TN001');
 --
 
 --
@@ -131,8 +131,8 @@ DROP TABLE IF EXISTS `T60`;
 CREATE TABLE `T60` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Proj_ID` varchar(15) DEFAULT NULL,
-  `STID` varchar(15) DEFAULT NULL,
+  `Proj_ID` varchar(20) DEFAULT NULL,
+  `STID` varchar(20) DEFAULT NULL,
   `Value1` float DEFAULT -9999,
   `Value2` float DEFAULT -9999,
   `Value3` float DEFAULT -9999,
@@ -151,7 +151,7 @@ CREATE TABLE `T60` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
-INSERT INTO `T60` ( `Proj_ID`, `STID`) VALUES ('嘉義市環保局','2332623TN001');
+INSERT INTO `T60` ( `Proj_ID`, `STID`) VALUES ('Chaiyi_EPB','2332623TN001');
 --
 
 -- Dump completed on 2022-05-26 15:52:14
@@ -168,8 +168,8 @@ DROP TABLE IF EXISTS `INITIAL`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `INITIAL` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Proj_ID` varchar(15) NOT NULL,
-  `STID` varchar(15) DEFAULT NULL,
+  `Proj_ID` varchar(20) NOT NULL,
+  `STID` varchar(20) DEFAULT NULL,
   `Address` varchar(30) NOT NULL,
   `Lng` varchar(20) NOT NULL,
   `Lat` varchar(20) NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE `INITIAL` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 -- 插入資料
 INSERT INTO `INITIAL` ( `Proj_ID`, `STID`, `Address`,`Lng`,`Lat`,`IP`,`PORT`) 
-VALUES ('嘉義市環保局','2332623TN001','嘉義市東區忠孝路307號','22.488493','120.4529439','192.168.3.107','4000');
+VALUES ('Chaiyi_EPB','2332623TN001','嘉義市東區忠孝路307號','22.488493','120.4529439','192.168.3.107','4000');
 --
 
 --
