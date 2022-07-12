@@ -12,8 +12,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=123456789
       - MYSQL_DATABASE=config
-    # command: >
-    #       bash -c "chmod 644 /etc/mysql/conf.d/*.cnf && /entrypoint.sh mysqld"
     networks:
       ipconfig:
         ipv4_address: 172.20.0.3
